@@ -1,0 +1,43 @@
+{
+    "id": 1,
+    "sol": 1,
+    "earth_date": "1/1/2010",
+
+    "next": {
+        // api url to call next photo
+        "url": "/api/photos/2",
+        // image url of next photo, for thumbnail
+        "img_url": "http://nasa.gov/..."
+    },
+    "prev": {
+        // api url to call next photo
+        "url": "/api/photos/2",
+        // image url of next photo, for thumbnail
+        "img_src": "http://nasa.gov/..."
+    },
+
+    // need a better name for photos of other cameras at same time
+    "neighbors": [
+        {
+        // api url to call next photo
+            "camera": {
+                "id": 2,
+                "name": ""
+            },
+        "url": "/api/photos/2",
+        // image url of next photo, for thumbnail
+        "img_url": "http://nasa.gov/..."
+        },
+        {},
+        {},
+    ],
+
+    "camera": {
+        "id": 1,
+        "name": "NAVCAM"
+    },
+    "rover": {
+        "id": 1,
+        "name": "Opportunity"
+    }
+}
