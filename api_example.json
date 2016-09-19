@@ -1,3 +1,7 @@
+// JSON result from calling from Django REST Framework of mars rover photos API
+// Call example:
+// mars-rover.com/api/photos/184737
+
 {
     "id": 1,
     "sol": 1,
