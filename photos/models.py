@@ -10,3 +10,14 @@ class Photo(md.Model):
     sol = md.IntegerField()
     earth_date = md.DateField()
     img_src = md.URLField(max_length=400)
+
+
+class Rover(md.Model):
+    """A Rover object; one of the three NASA rovers on Mars."""
+
+    nasa_id = md.IntegerField(unique=True)
+    name = md.CharField(max_length=30)
+    landing_date = md.DateField()
+    max_date = md.DateField()
+    max_sol = md.IntegerField()
+    total_photos = md.IntegerField()
