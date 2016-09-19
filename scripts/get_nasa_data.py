@@ -34,6 +34,7 @@ def populate_photos():
             # Add all photos to database
             # use get_or_create based on nasa_id
             # or make nasa_id unique and catch DB errors
+            # Filter out shitty ones
 
 
 def get_one_sol_photos(url, sol, api_key):
