@@ -50,7 +50,7 @@ def populate_photos():
     """Fill database with photos from NASA API."""
     api_key = NASA_API_KEY
     sol_counter = count()
-    prev_photos = {key: {cam_name: None for cam_name in dict_['cam_names']}
+    prev_photos = {key: dict.fromkeys(dict_['cam_names'])
                    for key, dict_ in ROVERS.items()}
 
     while True:
@@ -70,6 +70,9 @@ def populate_photos():
                 # List of photos only from this sol and this camera
                 photos_this_sol_cam = []
                 for photo in photos:
+                    print('Creating photo:')
+                    print(photo)
+                    print('\n')
                     p_row = Photo(**photo)
                     p_row.save()
 
@@ -77,6 +80,7 @@ def populate_photos():
                     p_row.prev_photo = prev_photos[rover][cam_name]
                     prev_photos[rover][cam_name] = p_row
                     photos_this_sol_cam.append(p_row)
+
                 photos_this_sol[cam_name] = photos_this_sol_cam
 
             for pair in combinations(photos_this_sol.values(), 2):
@@ -96,6 +100,8 @@ def get_photos(url, sol, camera, api_key):
     while True:
         page = next(page_counter)
         page_photos = make_page_request(url, sol, camera, api_key, page)
+        print('{} photos: sol={}, camera={}, page={}'.format(
+            len(page_photos), sol, camera, page))
         if not page_photos:
             break
         for photo in page_photos:
@@ -125,3 +131,7 @@ def is_good_photo(photo):
     if rover_name == 'Curiosity':
         return re.search(BAD_CUR, img_src) is None
     return re.search(LOW_RES_SPI_OPP, img_src) is None
+
+
+if __name__ == '__main__':
+    populate_photos()
