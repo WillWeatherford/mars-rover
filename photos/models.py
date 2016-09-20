@@ -11,7 +11,12 @@ class Photo(md.Model):
     earth_date = md.DateField()
     img_src = md.URLField(max_length=400)
     rover = md.ForeignKey("photos.Rover", related_name='photos', blank=True, null=True)
-    next_photo = md.OneToOneField("photos.Photo", related_name='prev_photo')
+    next_photo = md.OneToOneField(
+        "photos.Photo",
+        related_name='prev_photo',
+        null=True,
+        blank=True
+    )
 
 
 class Rover(md.Model):
