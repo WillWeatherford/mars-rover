@@ -7,13 +7,13 @@
     "sol": 1,
     "earth_date": "1/1/2010",
 
-    "next": {
+    "next_photo": {
         // api url to call next photo
         "url": "/api/photos/2",
         // image url of next photo, for thumbnail
         "img_url": "http://nasa.gov/..."
     },
-    "prev": {
+    "prev_photo": {
         // api url to call next photo
         "url": "/api/photos/2",
         // image url of next photo, for thumbnail
