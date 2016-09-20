@@ -31,15 +31,15 @@ PANCAM = 'PANCAM'
 
 ROVERS = {
     'Curiosity': {
-        'cameras': {FHAZ, RHAZ, NAVCAM, MAST, MAHLI},
+        'cam_names': {FHAZ, RHAZ, NAVCAM, MAST, MAHLI},
         'url': '/'.join((BASE_URL, 'curiosity/photos')),
     },
     'Opportunity': {
-        'cameras': {FHAZ, RHAZ, NAVCAM, PANCAM},
+        'cam_names': {FHAZ, RHAZ, NAVCAM, PANCAM},
         'url': '/'.join((BASE_URL, 'opportunity/photos')),
     },
     'Spirit': {
-        'cameras': {FHAZ, RHAZ, NAVCAM, PANCAM},
+        'cam_names': {FHAZ, RHAZ, NAVCAM, PANCAM},
         'url': '/'.join((BASE_URL, 'spirit/photos')),
     }
 }
@@ -50,25 +50,39 @@ def populate_photos():
     """Fill database with photos from NASA API."""
     api_key = NASA_API_KEY
     sol_counter = count()
-    prev_photos = {key: {cam_name: None for cam_name in dict_['cameras']}
+    prev_photos = {key: {cam_name: None for cam_name in dict_['cam_names']}
                    for key, dict_ in ROVERS.items()}
 
     while True:
         sol = next(sol_counter)
         for rover, dict_ in ROVERS.items():
             url = dict_['url']
-            for camera in dict_['cameras']:
 
-                photos = get_photos(url, sol, camera, api_key)
+            # Dict keeping track of just the photos from each cam at this sol.
+            photos_this_sol = {}
+
+            for cam_name in dict_['cam_names']:
+
+                photos = get_photos(url, sol, cam_name, api_key)
                 photos = filter(is_good_photo, photos)
                 photos = sorted(photos, key=itemgetter('img_src'))
 
-                for pair in combinations(photos, 2):
-                    shortest, longest = sorted(pair, key=len)
+                # List of photos only from this sol and this camera
+                photos_this_sol_cam = []
+                for photo in photos:
+                    p_row = Photo(**photo)
+                    p_row.save()
+                    p_row.prev_photo = prev_photos[rover][cam_name]
+                    prev_photos[rover][cam_name] = p_row
+                    photos_this_sol_cam.append(p_row)
+                photos_this_sol[cam_name] = photos_this_sol_cam
 
-            # connect previous and next
+            for pair in combinations(photos_this_sol.values(), 2):
+                shortest, longest = sorted(pair, key=len)
+
+                # Associate MtM relationships
+
             # Filter only left lens of double-lens cam
-            # Add photos to database
             # use get_or_create based on nasa_id
             # or make nasa_id unique and catch DB errors
 
