@@ -72,6 +72,8 @@ def populate_photos():
                 for photo in photos:
                     p_row = Photo(**photo)
                     p_row.save()
+
+                    # Crucial association of prev_photo/next_photo relationship
                     p_row.prev_photo = prev_photos[rover][cam_name]
                     prev_photos[rover][cam_name] = p_row
                     photos_this_sol_cam.append(p_row)
