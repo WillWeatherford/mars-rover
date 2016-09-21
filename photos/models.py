@@ -11,9 +11,9 @@ class Photo(md.Model):
     img_src = md.URLField(max_length=400)
     rover = md.ForeignKey("photos.Rover", related_name='photos')
     camera = md.ForeignKey("photos.Camera", related_name='photos')
-    next_photo = md.OneToOneField(
+    prev_photo = md.OneToOneField(
         "photos.Photo",
-        related_name='prev_photo',
+        related_name='next_photo',
         null=True,
     )
 
