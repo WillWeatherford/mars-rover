@@ -9,10 +9,8 @@ class Photo(md.Model):
     sol = md.IntegerField()
     earth_date = md.DateField()
     img_src = md.URLField(max_length=400)
-    rover = md.ForeignKey(
-        "photos.Rover",
-        related_name='photos',
-    )
+    rover = md.ForeignKey("photos.Rover", related_name='photos')
+    camera = md.ForeignKey("photos.Camera", related_name='photos')
     next_photo = md.OneToOneField(
         "photos.Photo",
         related_name='prev_photo',
