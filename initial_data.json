@@ -1,0 +1,110 @@
+[
+    {
+        "id": 5,
+        "name": "Curiosity",
+        "landing_date": "2012-08-06",
+        "max_sol": 1465,
+        "max_date": "2016-09-19",
+        "total_photos": 278094,
+        "cameras": [
+            {
+                "id": 20,
+                "rover_id": 5,
+                "name": "FHAZ",
+                "full_name": "Front Hazard Avoidance Camera"
+            },
+            {
+                "id": 21,
+                "rover_id": 5,
+                "name": "RHAZ",
+                "full_name": "Rear Hazard Avoidance Camera"
+            },
+            {
+                "id": 26,
+                "rover_id": 5,
+                "name": "NAVCAM",
+                "full_name": "Navigation Camera"
+            },
+            {
+                "id": 22,
+                "rover_id": 5,
+                "name": "MAST",
+                "full_name": "Mast Camera"
+            },
+            {
+                "id": 24,
+                "rover_id": 5,
+                "name": "MAHLI",
+                "full_name": "Mars Hand Lens Imager"
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Opportunity",
+        "landing_date": "2004-01-25",
+        "max_sol": 4498,
+        "max_date": "2016-09-19",
+        "total_photos": 183639,
+        "cameras": [
+            {
+                "id": 14,
+                "name": "FHAZ",
+                "rover_id": 6,
+                "full_name": "Front Hazard Avoidance Camera"
+            },
+            {
+                "id": 15,
+                "name": "RHAZ",
+                "rover_id": 6,
+                "full_name": "Rear Hazard Avoidance Camera"
+            },
+            {
+                "id": 16,
+                "name": "NAVCAM",
+                "rover_id": 6,
+                "full_name": "Navigation Camera"
+            },
+            {
+                "id": 17,
+                "name": "PANCAM",
+                "rover_id": 6,
+                "full_name": "Panoramic Camera"
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Spirit",
+        "landing_date": "2004-01-04",
+        "max_sol": 2208,
+        "max_date": "2010-03-21",
+        "total_photos": 124550,
+        "cameras": [
+            {
+                "id": 27,
+                "rover_id": 7,
+                "name": "FHAZ",
+                "full_name": "Front Hazard Avoidance Camera"
+            },
+            {
+                "id": 28,
+                "rover_id": 7,
+                "name": "RHAZ",
+                "full_name": "Rear Hazard Avoidance Camera"
+            },
+            {
+                "id": 29,
+                "rover_id": 7,
+                "name": "NAVCAM",
+                "full_name": "Navigation Camera"
+            },
+            {
+                "id": 30,
+                "rover_id": 7,
+                "name": "PANCAM",
+                "full_name": "Panoramic Camera"
+            }
+        ]
+    }
+]
