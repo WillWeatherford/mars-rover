@@ -1,10 +1,28 @@
 """Serializers to create JSON data from Photo objects."""
+from __future__ import unicode_literals
 from rest_framework import serializers as srz
-from photos.models import Photo, Camera
+from photos.models import Photo, Camera, Rover
+
+
+class RoverSerializer(srz.ModelSerializer):
+    """Limited nested Serializer for Rover model."""
+
+    class Meta:
+        """Meta information for Rover model."""
+
+        model = Rover
+        fields = [
+            'id',
+            'name'
+            'landing_date',
+            'max_date',
+            'max_sol',
+            'total_photos',
+        ]
 
 
 class CameraSerializer(srz.ModelSerializer):
-    """Serializer for Camera model."""
+    """Limited nested Serializer for Camera model."""
 
     class Meta:
         """Meta information for Camera serializer."""
@@ -59,6 +77,6 @@ class PhotoSerializer(srz.ModelSerializer):
             "prev_photo",
             "concurrent",
             "camera",
+            "rover",
         ]
-
 
