@@ -5,6 +5,3 @@ from .views import PhotoView
 urlpatterns = [
     url(r'photos/(?P<pk>[0-9]+)$', PhotoView.as_view(), name='photo-detail'),
 ]
-
-# router = DefaultRouter()
-# router.register(r'car', views.CarViewSet)
