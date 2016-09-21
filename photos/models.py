@@ -5,7 +5,6 @@ from django.db import models as md
 class Photo(md.Model):
     """Data for one photo from a NASA Mars Rover."""
 
-    # Make this the primary key?
     id = md.IntegerField(unique=True, primary_key=True)
     sol = md.IntegerField()
     earth_date = md.DateField()
