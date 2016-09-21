@@ -6,7 +6,7 @@ class Photo(md.Model):
     """Data for one photo from a NASA Mars Rover."""
 
     # Make this the primary key?
-    nasa_id = md.IntegerField(unique=True)
+    id = md.IntegerField(unique=True, primary_key=True)
     sol = md.IntegerField()
     earth_date = md.DateField()
     img_src = md.URLField(max_length=400)
@@ -22,7 +22,7 @@ class Photo(md.Model):
 class Rover(md.Model):
     """A Rover object; one of the three NASA rovers on Mars."""
 
-    nasa_id = md.IntegerField(unique=True)
+    id = md.IntegerField(unique=True, primary_key=True)
     name = md.CharField(max_length=30)
     landing_date = md.DateField()
     max_date = md.DateField()
