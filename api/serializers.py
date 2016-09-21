@@ -43,6 +43,7 @@ class PhotoSerializer(srz.ModelSerializer):
 
     next_photo = NestedPhotoSerializer(read_only=True)
     prev_photo = NestedPhotoSerializer(read_only=True)
+    concurrent = NestedPhotoSerializer(read_only=True, many=True)
     camera = CameraSerializer(read_only=True)
 
     class Meta:
@@ -56,9 +57,8 @@ class PhotoSerializer(srz.ModelSerializer):
             "earth_date",
             "next_photo",
             "prev_photo",
-            # "neighbors",
+            "concurrent",
             "camera",
-            # "rover",
         ]
 
 
