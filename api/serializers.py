@@ -7,12 +7,18 @@ from photos.models import Photo, Camera, Rover
 class RoverSerializer(srz.ModelSerializer):
     """Limited nested Serializer for Rover model."""
 
+    url = srz.HyperlinkedIdentityField(
+        view_name='api:rover-detail',
+        read_only=True
+    )
+
     class Meta:
         """Meta information for Rover model."""
 
         model = Rover
         fields = [
             'id',
+            'url',
             'name'
             'landing_date',
             'max_date',

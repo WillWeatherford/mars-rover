@@ -10,5 +10,11 @@ urlpatterns = [
 
 # /api/rovers/rovername/
 # /api/rovers/rovername/photos/photoid
-# /api/rovers/rovername/sols/solnum
-# /api/rovers/rovername/earth_date/date
+
+# jump to sol, same rover, same cam ->
+#   /api/rovers/rovername/sols/solnum
+#   /api/rovers/rovername?sol=X&camera__name=current_cam_name
+
+# jump to different rover, same cam (?) same earth date ->
+#   /api/rovers/rovername/earth_date/date
+#   /api/rovers/rovername?earth_date=XXXXX&camera__name=current_cam_name
