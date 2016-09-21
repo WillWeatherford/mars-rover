@@ -31,7 +31,7 @@ def get_initial_data():
         return json.load(json_file)
 
 
-def iter_sol_rover(max_sol=None):
+def iter_sol_rover(max_sol):
     """Generate sol/rover combinations."""
     sol_counter = count()
     rovers = Rover.objects.all()
@@ -61,7 +61,7 @@ def populate_rovers_and_cameras(rover_data):
             new_camera.rover = new_rover
 
 
-def populate_photos():
+def populate_photos(max_sol=None):
     """Fill database with photos from NASA API."""
     api_key = NASA_API_KEY
 
@@ -71,7 +71,7 @@ def populate_photos():
         for rover in rover_data
     }
 
-    for sol, rover in iter_sol_rover():
+    for sol, rover in iter_sol_rover(max_sol):
         url = make_rover_url(rover.name)
 
         # Dict keeping track of just the photos from each cam at this sol.
@@ -108,7 +108,7 @@ def set_concurrent(photos_by_cam):
     for pair in combinations(photos_by_cam.values(), 2):
         shortest, longest = sorted(pair, key=len)
         # round up instead?
-        ratio = len(shortest) // len(longest)
+        ratio = len(longest) // len(shortest)
 
         for idx, photo in enumerate(shortest):
             try:
@@ -123,8 +123,6 @@ def set_concurrent(photos_by_cam):
             except IndexError:
                 other = shortest[-1]
             photo.concurrent.add(other)
-
-        # Associate MtM relationships
 
 
 def get_photos(url, sol, camera, api_key):
@@ -172,6 +170,6 @@ if __name__ == '__main__':
     rover_data = get_initial_data()
     populate_rovers_and_cameras(rover_data)
     try:
-        populate_photos(sys.argv[1])
+        populate_photos(int(sys.argv[1]))
     except IndexError:
         populate_photos()
