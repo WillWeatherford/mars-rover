@@ -20,6 +20,12 @@
                 "full_name": "Rear Hazard Avoidance Camera"
             },
             {
+                "id": 26,
+                "rover_id": 5,
+                "name": "NAVCAM",
+                "full_name": "Navigation Camera"
+            },
+            {
                 "id": 22,
                 "rover_id": 5,
                 "name": "MAST",
@@ -30,12 +36,6 @@
                 "rover_id": 5,
                 "name": "MAHLI",
                 "full_name": "Mars Hand Lens Imager"
-            },
-            {
-                "id": 26,
-                "rover_id": 5,
-                "name": "NAVCAM",
-                "full_name": "Navigation Camera"
             }
         ]
     },
