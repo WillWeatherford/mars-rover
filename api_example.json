@@ -8,14 +8,25 @@
         "id": 509006,
         "url": "http://localhost:8000/api/photos/509006",
         "img_src":"http://mars.jpl.nasa.gov/msl-raw-images/msss/00003/mcam/0003ML0000039000E1_DXXX.jpg",
-        "camera": "MAST"
+        "camera": {
+            "id": 22,
+            "name": "MAST",
+            "full_name": "Mast Camera"
+        }
     },
     "prev_photo": {
         "id": 509007,
         "url": "http://localhost:8000/api/photos/509007",
         "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/msss/00003/mcam/0003ML0000038000E1_DXXX.jpg",
-        "camera": "MAST"
+        "camera": {
+            "id": 22,
+            "name": "MAST",
+            "full_name": "Mast Camera"
+        }
     },
-    "camera":22,
-    "rover":5
+    "camera": {
+        "id": 22,
+        "name": "MAST",
+        "full_name": "Mast Camera"
+    }
 }

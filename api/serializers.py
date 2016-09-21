@@ -1,13 +1,30 @@
 """Serializers to create JSON data from Photo objects."""
 from rest_framework import serializers as srz
-from photos.models import Photo
+from photos.models import Photo, Camera
+
+
+class CameraSerializer(srz.ModelSerializer):
+    """Serializer for Camera model."""
+
+    class Meta:
+        """Meta information for Camera serializer."""
+
+        model = Camera
+        fields = [
+            'id',
+            'name',
+            'full_name',
+        ]
 
 
 class NestedPhotoSerializer(srz.ModelSerializer):
     """Serializer for Photo through nested relationships."""
 
-    url = srz.HyperlinkedIdentityField(view_name='api:photo-detail', read_only=True)
-    camera = srz.ReadOnlyField(source='camera.name')
+    url = srz.HyperlinkedIdentityField(
+        view_name='api:photo-detail',
+        read_only=True
+    )
+    camera = CameraSerializer(read_only=True)
 
     class Meta:
         """Meta for limeted details on Photo model."""
@@ -26,6 +43,7 @@ class PhotoSerializer(srz.ModelSerializer):
 
     next_photo = NestedPhotoSerializer(read_only=True)
     prev_photo = NestedPhotoSerializer(read_only=True)
+    camera = CameraSerializer(read_only=True)
 
     class Meta:
         """Meta information for PhotoSerializer."""
@@ -40,5 +58,7 @@ class PhotoSerializer(srz.ModelSerializer):
             "prev_photo",
             # "neighbors",
             "camera",
-            "rover",
+            # "rover",
         ]
+
+
