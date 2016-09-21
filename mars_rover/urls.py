@@ -15,15 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from photos.views import ClassView, AboutView
+from photos.views import ClassView, RoverView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include('api.urls', namespace='api')),
-    url(r'^', ClassView.as_view(template_name="photos/index.html"), name="home"),
-    url(r'^about/', AboutView.as_view(template_name="photos/about.html"), name="about"),
+    url(r'^$', ClassView.as_view(), name="home"),
+    url(r'^rover/', RoverView.as_view(), name="rover"),
 ]
 
 if settings.DEBUG:
