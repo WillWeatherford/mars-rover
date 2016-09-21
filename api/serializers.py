@@ -8,6 +8,7 @@ class RoverSerializer(srz.ModelSerializer):
     """Limited nested Serializer for Rover model."""
 
     url = srz.HyperlinkedIdentityField(
+        lookup_field='name',
         view_name='api:rover-detail',
         read_only=True
     )
@@ -19,7 +20,7 @@ class RoverSerializer(srz.ModelSerializer):
         fields = [
             'id',
             'url',
-            'name'
+            'name',
             'landing_date',
             'max_date',
             'max_sol',
