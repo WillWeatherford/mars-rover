@@ -1,4 +1,5 @@
 """Serializers to create JSON data from Photo objects."""
+from __future__ import unicode_literals
 from rest_framework import serializers as srz
 from photos.models import Photo, Camera
 
