@@ -9,13 +9,14 @@ class Photo(md.Model):
     sol = md.IntegerField()
     earth_date = md.DateField()
     img_src = md.URLField(max_length=400)
-    rover = md.ForeignKey("photos.Rover", related_name='photos')
-    camera = md.ForeignKey("photos.Camera", related_name='photos')
+    rover = md.ForeignKey('photos.Rover', related_name='photos')
+    camera = md.ForeignKey('photos.Camera', related_name='photos')
     prev_photo = md.OneToOneField(
-        "photos.Photo",
+        'photos.Photo',
         related_name='next_photo',
         null=True,
     )
+    concurrent = md.ManyToManyField('self', symmetrical=False)
 
 
 class Rover(md.Model):
