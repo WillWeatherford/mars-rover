@@ -38,10 +38,12 @@
 
     "camera": {
         "id": 1,
-        "name": "NAVCAM"
+        "name": "NAVCAM",
+        "full_name": "Navigation Camera"
     },
     "rover": {
         "id": 1,
-        "name": "Opportunity"
+        "name": "Opportunity",
+        "full_name": "Navigation Camera"
     }
 }
