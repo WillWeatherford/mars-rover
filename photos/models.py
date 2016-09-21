@@ -22,8 +22,17 @@ class Rover(md.Model):
     """A Rover object; one of the three NASA rovers on Mars."""
 
     id = md.IntegerField(unique=True, primary_key=True)
-    name = md.CharField(max_length=30)
+    name = md.CharField(max_length=100)
     landing_date = md.DateField()
     max_date = md.DateField()
     max_sol = md.IntegerField()
     total_photos = md.IntegerField()
+
+
+class Camera(md.Model):
+    """Camera object attached to a Rover. Names duplicate; ids are unique."""
+
+    id = md.IntegerField(unique=True, primary_key=True)
+    name = md.CharField(max_length=100)
+    full_name = md.CharField(max_length=100)
+    rover = md.ForeignKey('photos.Rover', related_name='cameras')
