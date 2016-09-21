@@ -7,3 +7,8 @@ urlpatterns = [
     url(r'photos/(?P<pk>[0-9]+)$', PhotoView.as_view(), name='photo-detail'),
     url(r'rovers/(?P<pk>[0-9]+)$', RoverView.as_view(), name='rover-detail'),
 ]
+
+# /api/rovers/rovername/
+# /api/rovers/rovername/photos/photoid
+# /api/rovers/rovername/sols/solnum
+# /api/rovers/rovername/earth_date/date

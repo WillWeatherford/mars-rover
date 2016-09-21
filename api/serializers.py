@@ -63,6 +63,7 @@ class PhotoSerializer(srz.ModelSerializer):
     prev_photo = NestedPhotoSerializer(read_only=True)
     concurrent = NestedPhotoSerializer(read_only=True, many=True)
     camera = CameraSerializer(read_only=True)
+    rover = RoverSerializer(read_only=True)
 
     class Meta:
         """Meta information for PhotoSerializer."""
