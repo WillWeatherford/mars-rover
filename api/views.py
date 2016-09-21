@@ -1,7 +1,7 @@
 """Views for returning data vi REST API."""
 from rest_framework.generics import RetrieveAPIView
 from photos.models import Photo
-from serializers import PhotoSerializer
+from .serializers import PhotoSerializer
 
 
 class PhotoView(RetrieveAPIView):
