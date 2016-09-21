@@ -12,14 +12,11 @@ class Photo(md.Model):
     rover = md.ForeignKey(
         "photos.Rover",
         related_name='photos',
-        blank=True,
-        null=True
     )
     next_photo = md.OneToOneField(
         "photos.Photo",
         related_name='prev_photo',
         null=True,
-        blank=True
     )
 
 
