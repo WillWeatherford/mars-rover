@@ -10,4 +10,10 @@ from django.views.generic import TemplateView
 class ClassView(TemplateView):
     """Home page template."""
 
-    template_name = 'base.html'
+    template_name = 'index.html'
+
+
+class AboutView(TemplateView):
+    """About view."""
+
+    template_name = 'about.html'

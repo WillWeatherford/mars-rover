@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from photos.views import ClassView
+from photos.views import ClassView, AboutView
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', ClassView.as_view(template_name="photos/base.html"), name="home"),
+    url(r'^', ClassView.as_view(template_name="photos/index.html"), name="home"),
+    url(r'^about/', AboutView.as_view(template_name="photos/about.html"), name="about"),
+
 ]
 
 if settings.DEBUG:

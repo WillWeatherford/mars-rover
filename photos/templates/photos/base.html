@@ -21,6 +21,8 @@
 
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <link href="{% static 'css/module.css' %}" rel="stylesheet">
+    <link href="{% static 'css/map.css' %}" rel="stylesheet">
+
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -33,6 +35,7 @@
 </head>
 
 <body>
+
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -51,7 +54,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
+                        <a href="/about">About</a>
                     </li>
                     <li>
                         <a href="#">Documentation</a>
@@ -67,50 +70,128 @@
     </nav>
 
     {% block content %}
+    {% endblock %}
         <!-- Full Page Image Background Carousel Header -->
-        <header id="myCarousel" class="carousel slide">
-            <!-- Indicators -->
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-            </ol>
+    <header id="myCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
 
-            <!-- Wrapper for Slides -->
-            <div class="carousel-inner">
-                <div class="item active">
-                    <!-- Set the first background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('http://www.extremetech.com/wp-content/uploads/2016/01/Opportunity.jpg');"></div>
-                    <div class="carousel-caption">
-                        <h2>Opportunity</h2>
-                    </div>
-                </div>
-                <div class="item">
-                    <!-- Set the second background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('http://www.3dvisionlive.com/sites/default/files/Curiosity_render_hiresb.jpg');"></div>
-                    <div class="carousel-caption">
-                        <h2>Curiosity</h2>
-                    </div>
-                </div>
-                <div class="item">
-                    <!-- Set the third background image using inline CSS below. -->
-                    <div class="fill" style="background-image:url('http://www.universetoday.com/wp-content/uploads/2008/10/five_years_on_mars-4_10240768.jpg');"></div>
-                    <div class="carousel-caption">
-                        <h2>Spirit</h2>
-                    </div>
+        <!-- Wrapper for Slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <!-- Set the first background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('http://www.extremetech.com/wp-content/uploads/2016/01/Opportunity.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2>Opportunity</h2>
                 </div>
             </div>
+            <div class="item">
+                <!-- Set the second background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('http://www.3dvisionlive.com/sites/default/files/Curiosity_render_hiresb.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2>Curiosity</h2>
+                </div>
+            </div>
+            <div class="item">
+                <!-- Set the third background image using inline CSS below. -->
+                <div class="fill" style="background-image:url('http://www.universetoday.com/wp-content/uploads/2008/10/five_years_on_mars-4_10240768.jpg');"></div>
+                <div class="carousel-caption">
+                    <h2>Spirit</h2>
+                </div>
+            </div>
+        </div>
 
-            <!-- Controls -->
-            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                <span class="icon-prev"></span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                <span class="icon-next"></span>
-            </a>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <span class="icon-prev"></span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <span class="icon-next"></span>
+        </a>
 
-        </header>
-    {% endblock %}
+    </header>
+
+
+    <!-- HOME CONTAINER -->
+    <article class="container">
+
+      <!-- WEB HOME -->
+      <div class="home-view">
+        <div class="desktop-home">
+          <section class="main-menu row" id="menu-home">
+
+            <!-- MAR GLOBE -->
+            <section class="planet-menu six columns">
+                <figure class="mars">
+                    <span class="caps"></span>
+                    <span id="opportunity" class="map-loc"></span>
+                    <span id="curiosity" class="map-loc"></span>
+                    <span id="spirit" class="map-loc"></span>
+                </figure>
+            </section>
+
+            <!-- ALL ROVER INFO -->
+            <section class="info six columns">
+
+
+              <!-- HOME INTRO -->
+              <article class="welcome">
+                <h2>Welcome to Mars Street View!</h2>
+                <ul>
+                  <li>Walk the red planet alongside your favorite little robots. Get ready for some fun in the sun and the dirt and the dust... the dust goes on in every direction forever. Mars is devoid of life! <strong>Click a rover to begin!</strong></li>
+                </ul>
+              </article>
+
+              <!-- OPPORTUNITY HOME -->
+              <article class="rover-info about" rover="Opportunity" rover-lower="opportunity">
+                <h2>Opportunity</h2>
+                <ul>
+                    <li><strong>Status</strong>: Active</li>
+                    <li><strong>Landing Date</strong>: January 25, 2004</li>
+                    <li><strong>Mission Sols</strong>: 2208</li>
+                    <li><strong>Total photos</strong>: 179081</li>
+                    <li><strong>Cameras</strong>: 5</li>
+                    <li>Opportunity landed on Mars 3 weeks after its twin, Spirit. While its mission was planned to last 90 days, Opportunity has operated continuously for 4327 sols (Martian days) as of March 31st, 2016. It has exceeded its planned operational capacity by 11 years and 337</li>
+                </ul>
+              </article>
+                
+              <!-- CURIOSITY HOME -->
+              <article class="rover-info about" rover="Curiosity" rover-lower="curiosity">
+                <h2>Curiosity</h2>
+                <ul>
+                  <li><strong>Status</strong>: Active</li>
+                  <li><strong>Landing Date</strong>: August 6, 2012</li>
+                  <li><strong>Mission Sols</strong>: 1298</li>
+                  <li><strong>Total photos</strong>:  312866</li>
+                  <li><strong>Cameras</strong>: 7</li>
+                  <li>The purpose of Curiosity was to find out if Mars could or had supported life. It’s arms are over 7 feet and the rover is almost 10 feet long, 9 feet wide and 7 feet tall.</li>
+                </ul>
+              </article>
+
+
+              <!-- SPIRIT HOME -->
+              <article class="rover-info about" rover="Spirit" rover-lower="spirit">
+                <h2>Spirit</h2>
+                <ul>
+                  <li><strong>Status</strong>: Offline permanently</li>
+                  <li><strong>Landing date</strong>:  January 4, 2004</li>
+                  <li><strong>Mission sols</strong>: 2208</li>
+                  <li><strong>Total photos</strong>: 124550</li>
+                  <li><strong>Cameras</strong>: 5</li>
+                  <li>Spirit landed on Mars 3 weeks before its twin, Opportunity. While its mission was planned to last 90 days, Spirit continued to operate for 2208 sols (Martian days). Spirit became stuck in a sand pit on May 2009, then gradually ceased to function as its solar panels became covered with dust. Its last communication to Earth was March 22, 2010.</li>
+                </ul>
+              </article>
+
+            </section>
+          </section>
+
+        </div>
+      </div>
+    </article>
 
 
     <!-- Page Content -->
@@ -133,6 +214,8 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 
     <!-- Script to Activate the Carousel -->
     <script>
