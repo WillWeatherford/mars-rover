@@ -1,47 +1,32 @@
-// JSON result from calling from Django REST Framework of mars rover photos API
-// Call example:
-// mars-rover.com/api/photos/184737
-
 {
-    "id": 1,
-    "sol": 1,
-    "earth_date": "1/1/2010",
-
-    "next": {
-        // api url to call next photo
-        "url": "/api/photos/2",
-        // image url of next photo, for thumbnail
-        "img_url": "http://nasa.gov/..."
+    "id": 509149,
+    "sol": 3,
+    "img_src": 
+    "http://mars.jpl.nasa.gov/msl-raw-images/msss/00003/mcam/0003ML0000038000I1_DXXX.jpg",
+    "earth_date": "2012-08-09",
+    "next_photo": {
+        "id": 509006,
+        "url": "http://localhost:8000/api/photos/509006",
+        "img_src":"http://mars.jpl.nasa.gov/msl-raw-images/msss/00003/mcam/0003ML0000039000E1_DXXX.jpg",
+        "camera": {
+            "id": 22,
+            "name": "MAST",
+            "full_name": "Mast Camera"
+        }
     },
-    "prev": {
-        // api url to call next photo
-        "url": "/api/photos/2",
-        // image url of next photo, for thumbnail
-        "img_src": "http://nasa.gov/..."
+    "prev_photo": {
+        "id": 509007,
+        "url": "http://localhost:8000/api/photos/509007",
+        "img_src": "http://mars.jpl.nasa.gov/msl-raw-images/msss/00003/mcam/0003ML0000038000E1_DXXX.jpg",
+        "camera": {
+            "id": 22,
+            "name": "MAST",
+            "full_name": "Mast Camera"
+        }
     },
-
-    // need a better name for photos of other cameras at same time
-    "neighbors": [
-        {
-        // api url to call next photo
-            "camera": {
-                "id": 2,
-                "name": ""
-            },
-        "url": "/api/photos/2",
-        // image url of next photo, for thumbnail
-        "img_url": "http://nasa.gov/..."
-        },
-        {},
-        {},
-    ],
-
     "camera": {
-        "id": 1,
-        "name": "NAVCAM"
-    },
-    "rover": {
-        "id": 1,
-        "name": "Opportunity"
+        "id": 22,
+        "name": "MAST",
+        "full_name": "Mast Camera"
     }
 }
