@@ -51,24 +51,24 @@ function main() {
         offset: 80
     })
 
-  	$(document).ready(function() {
-  	  $("#team").owlCarousel({
+  	// $(document).ready(function() {
+  	//   $("#team").owlCarousel({
   	 
-  	      navigation : false, // Show next and prev buttons
-  	      slideSpeed : 300,
-  	      paginationSpeed : 400,
-  	      autoHeight : true,
-  	      itemsCustom : [
-				        [0, 1],
-				        [450, 2],
-				        [600, 2],
-				        [700, 2],
-				        [1000, 4],
-				        [1200, 4],
-				        [1400, 4],
-				        [1600, 4]
-				      ],
-  	  });
+  	//       navigation : false, // Show next and prev buttons
+  	//       slideSpeed : 300,
+  	//       paginationSpeed : 400,
+  	//       autoHeight : true,
+  	//       itemsCustom : [
+			// 	        [0, 1],
+			// 	        [450, 2],
+			// 	        [600, 2],
+			// 	        [700, 2],
+			// 	        [1000, 4],
+			// 	        [1200, 4],
+			// 	        [1400, 4],
+			// 	        [1600, 4]
+			// 	      ],
+  	//   });
 
   	  $("#clients").owlCarousel({
   	 
@@ -131,9 +131,9 @@ function main() {
     WOW JS
     ======================================*/	
 
-	new WOW().init();
+	// new WOW().init();
 	//smoothScroll
-	smoothScroll.init();
+	// smoothScroll.init();
 
 
 	
