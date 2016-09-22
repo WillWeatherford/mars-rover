@@ -5,6 +5,7 @@ import re
 import os
 import sys
 import json
+import time
 import requests
 from operator import itemgetter
 from itertools import count, combinations
@@ -156,6 +157,7 @@ def get_photos(url, sol, camera, api_key):
 
 def make_page_request(url, sol, camera, api_key, page):
     """Make one page request from NASA API."""
+    time.sleep(0.4)
     params = {
         'sol': sol,
         'camera': camera,
