@@ -21,6 +21,8 @@ BAD_PATS = (RIGHT_LENS, LOW_RES_SPI_OPP, BAD_CUR)
 BASE_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/{}/photos'
 INIT_DATA = 'initial_data.json'
 NASA_API_KEY = os.environ['NASA_API_KEY']
+NULL_IMG_SRC = 'notreal.jpg'
+DEFAULT_LAST_EARTH_DATE = '2004-01-04'
 
 
 def get_initial_data():
@@ -62,6 +64,8 @@ def populate_rovers_and_cameras(rover_data):
 def populate_photos(max_sol=None):
     """Fill database with photos from NASA API."""
     api_key = NASA_API_KEY
+    last_earth_date = DEFAULT_LAST_EARTH_DATE
+    null_id_counter = count(1000000000)
 
     rover_data = Rover.objects.all()
     prev_photos = {
@@ -95,6 +99,18 @@ def populate_photos(max_sol=None):
                 prev_photos[rover.name][camera.name] = new_photo
 
                 photos_this_sol.setdefault(camera.name, []).append(new_photo)
+
+                last_earth_date = max((last_earth_date, photo['earth_date']))
+
+            if not photos:
+                null_photo = make_null_photo(
+                    id=next(null_id_counter),
+                    sol=sol,
+                    earth_date=last_earth_date,
+                    camera=camera,
+                    rover=rover
+                )
+                photos_this_sol[camera.name] = [null_photo]
 
         set_concurrent(photos_this_sol)
 
@@ -155,6 +171,17 @@ def make_page_request(url, sol, camera, api_key, page):
 def is_good_photo(photo):
     """Return True if photo is usable; False if it is a bad photo."""
     return all([re.search(pat, photo['img_src']) is None for pat in BAD_PATS])
+
+
+def make_null_photo(**kwargs):
+    """Enter a Photo into the database which is an empty placeholder."""
+    kwargs['img_src'] = NULL_IMG_SRC
+    new_photo = Photo(**kwargs)
+    new_photo.save()
+    print('Created null photo for rover={} camera={} sol={}'.format(
+        kwargs['rover'].name, kwargs['camera'].name, kwargs['sol']
+    ))
+    return new_photo
 
 
 if __name__ == '__main__':
