@@ -1,6 +1,6 @@
 """Production settings for deployment on AWS."""
 from __future__ import unicode_literals
-from marsrover.settings import *
+from mars_rover.settings import *
 
 DEBUG = False
 ALLOWED_HOSTS.extend(
