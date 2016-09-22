@@ -20,6 +20,7 @@ class PhotoView(RetrieveAPIView):
 class RoverView(RetrieveAPIView):
     """Use call to Rover to get photos."""
 
+    lookup_field = 'name'
     queryset = Rover.objects.all()
     serializer_class = PhotoSerializer
 
@@ -27,13 +28,12 @@ class RoverView(RetrieveAPIView):
         """Extend get_object method."""
         rover = super(RoverView, self).get_object(*args, **kwargs)
         req_params = self.request.GET.dict()
-        queryset = rover.photos
 
-        # camera_name = req_params.pop('camera__name')
-        # if camera_name:
-        #     queryset = rover.cameras.get(name=camera_name).photos
-        # else:
-        #     queryset = rover.photos
+        camera_name = req_params.pop('camera__name', None)
+        if camera_name is not None:
+            queryset = rover.cameras.get(name=camera_name).photos
+        else:
+            queryset = rover.photos
 
         resp_params = DEFAULTS.copy()
         resp_params.update(req_params)
@@ -41,6 +41,5 @@ class RoverView(RetrieveAPIView):
         if 'earth_date' in resp_params and 'sol' in resp_params:
             resp_params.pop('sol')
 
-        # order_by?
-        queryset = queryset.filter(**resp_params)
+        queryset = queryset.filter(**resp_params).order_by('img_src')
         return queryset.first()

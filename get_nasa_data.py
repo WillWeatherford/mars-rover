@@ -13,12 +13,10 @@ django.setup()
 
 from photos.models import Photo, Rover, Camera
 
-# TODO: use these filters
-LEFT_LENS_URL = '%L___-BR.JPG'
-RIGHT_LENS_URL = '%R___-BR.JPG'
-
+RIGHT_LENS = r'R.{3}\-BR\.JPG'
 LOW_RES_SPI_OPP = r'ESF.{7}\-BR\.JPG'
 BAD_CUR = r'.(M|D).{7}(NCAM|TRAV|SAPP).{7}\.JPG'
+BAD_PATS = (RIGHT_LENS, LOW_RES_SPI_OPP, BAD_CUR)
 
 BASE_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/{}/photos'
 INIT_DATA = 'initial_data.json'
@@ -100,8 +98,6 @@ def populate_photos(max_sol=None):
 
         set_concurrent(photos_this_sol)
 
-        # Filter only left lens of double-lens cam
-
 
 def set_concurrent(photos_by_cam):
     """Set relationships between photos from same sol on different cameras."""
@@ -158,11 +154,7 @@ def make_page_request(url, sol, camera, api_key, page):
 
 def is_good_photo(photo):
     """Return True if photo is usable; False if it is a bad photo."""
-    img_src = photo['img_src']
-    rover_name = photo['rover']['name']
-    if rover_name == 'Curiosity':
-        return re.search(BAD_CUR, img_src) is None
-    return re.search(LOW_RES_SPI_OPP, img_src) is None
+    return all([re.search(pat, photo['img_src']) is None for pat in BAD_PATS])
 
 
 if __name__ == '__main__':
