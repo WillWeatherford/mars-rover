@@ -1,0 +1,45 @@
+
+li {
+	text-decoration: none;
+}
+
+
+.about_container {
+	display: flex;
+	flex-direction: column;
+}
+
+.clear-fix {
+	clear: both;
+}
+
+
+
+.about {
+	display: flex;
+	flex-direction: column;
+	margin: 20px;
+}
+
+
+.main-menu {
+	display: flex;
+	margin-top: 40px;
+}
+
+
+
+/* ===== FOOTER ===== */
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #efefef;
+  text-align: center;
+}
+
+
+/*@media */
