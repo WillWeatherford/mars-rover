@@ -4,9 +4,19 @@ from rest_framework.generics import RetrieveAPIView
 from photos.models import Photo, Rover
 from .serializers import PhotoSerializer
 
-DEFAULTS = {
-    'sol': 0,
-    'camera__name': 'FHAZ',
+START = {
+    'Curiosity': {
+        'sol': 0,
+        'camera__name': 'FHAZ',
+    },
+    'Opportunity': {
+        'sol': 1,
+        'camera__name': 'PANCAM',
+    },
+    'Spirit': {
+        'sol': 1,
+        'camera__name': 'PANCAM',
+    }
 }
 
 
@@ -35,7 +45,7 @@ class RoverView(RetrieveAPIView):
         else:
             queryset = rover.photos
 
-        resp_params = DEFAULTS.copy()
+        resp_params = START[rover.name].copy()
         resp_params.update(req_params)
 
         if 'earth_date' in resp_params and 'sol' in resp_params:
