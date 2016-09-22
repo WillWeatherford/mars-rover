@@ -20,7 +20,7 @@ BAD_CUR = r'.(M|D).{7}(NCAM|TRAV|SAPP).{7}\.JPG'
 BAD_PATS = (RIGHT_LENS, LOW_RES_SPI_OPP, BAD_CUR)
 
 BASE_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/{}/photos'
-INIT_DATA = 'initial_data.json'
+INIT_DATA = os.path.join(os.dirname(__file__), 'initial_data.json')
 NASA_API_KEY = os.environ['NASA_API_KEY']
 NULL_IMG_SRC = 'notreal.jpg'
 DEFAULT_LAST_EARTH_DATE = '2004-01-04'
