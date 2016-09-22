@@ -190,7 +190,4 @@ if __name__ == '__main__':
 
     rover_data = get_initial_data()
     populate_rovers_and_cameras(rover_data)
-    try:
-        populate_photos(int(sys.argv[1]))
-    except IndexError:
-        populate_photos()
+    populate_photos()
