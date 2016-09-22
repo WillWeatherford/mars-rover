@@ -32,6 +32,15 @@
     <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
+    <script id="cam-details" type="text/x-handlebars-template">
+        <div class="camera-info twelve columns">
+          <div class="rover-div">
+            <h5 class="rover-title">{{rover}}<h5>
+          </div>
+          <h5>Sol: </h5>
+        </div>
+    </script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -60,13 +69,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/about">About</a>
-                    </li>
-                    <li>
-                        <a href="#services">Rovers</a>
-                    </li>
-                    <li>
-                        <a href="#contact">Contact Us</a>
+                        <a href="{% url 'home' %}">Home</a>
                     </li>
                 </ul>
             </div>
@@ -75,6 +78,38 @@
         <!-- /.container -->
     </nav>
 
+      <section class="change_sol" style="margin-top: 70px;">
+          
+          <form id="sol" action='post'>
+              Change Sol:<br>
+              <input type="text" name="sol">
+              <input type="submit" name="sol" id="submit_sol"><br>
+          </form>
+
+      </section>
+
+      <section class="camera-info"></section>
+
+      <!-- MOBILE ROVER PAGE -->
+      <section id="rover-view">
+        <section class="camera-info"></section>
+        <form class="rover-form">
+          <article class="next" style="margin-top: 20px">
+            <button type="button" name="button" id="next-photo" class="button-primary col-xs-12 col-md-12 col-sm-12">Next Photo</button>
+            <!-- <button type="button" name="button" id="next-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Next Sol</button> -->
+            <!-- <button type="button" name="button" id="next-ten" class="button-primary">Next Ten</button>
+            <button type="button" name="button" id="next-hundred" class="button-primary">Next Hundred</button> -->
+          </article>
+            <section class="main-section" style="height:530px;">
+              <img src="" id='main-photo'/>
+            </section>
+          <article class="prev">
+            <button type="button" name="button" id="prev-photo" class="button-primary col-xs-12 col-md-12 col-sm-12">Previous Photo</button>
+            <!-- <button type="button" name="button" id="prev-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Previous Sol</button> -->
+          </article>
+          <section class="cam-buttons u-full-width"></section>
+        </form>
+      </section>
 
 
     <!-- Footer -->
@@ -88,7 +123,7 @@
                         </li>
                         <li class="footer-menu-divider">&sdot;</li>
                         <li>
-                            <a href="{% url 'about' %}">About</a>
+                            <a href="">About</a>
                         </li>
                         <li class="footer-menu-divider">&sdot;</li>
                         <li>
@@ -110,15 +145,9 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
-
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 2000 //changes the speed
-    })
-    </script>
 
 </body>
 
