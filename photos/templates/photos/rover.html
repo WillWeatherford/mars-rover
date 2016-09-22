@@ -32,19 +32,12 @@
     <link href="{% static 'font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
-<!--     <script id="cam-template" type="text/x-handlebars-template">
-        <div class="camera-button two columns">
-          <img src="{{0}}" id="{{short_name}}">
-          <h5>{{name}}</h5>
-        </div>
-    </script> -->
-
     <script id="cam-details" type="text/x-handlebars-template">
         <div class="camera-info twelve columns">
           <div class="rover-div">
             <h5 class="rover-title">{{rover}}<h5>
           </div>
-          <h5>Sol: {{label_sol}}</h5>
+          <h5>Sol: </h5>
         </div>
     </script>
 
@@ -95,13 +88,15 @@
 
       </section>
 
+      <section class="camera-info"></section>
+
       <!-- MOBILE ROVER PAGE -->
       <section id="rover-view">
         <section class="camera-info"></section>
         <form class="rover-form">
           <article class="next" style="margin-top: 20px">
-            <button type="button" name="button" id="next-photo" class="button-primary col-xs-6 col-md-6 col-sm-6">Next Photo</button>
-            <button type="button" name="button" id="next-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Next Sol</button>
+            <button type="button" name="button" id="next-photo" class="button-primary col-xs-12 col-md-12 col-sm-12">Next Photo</button>
+            <!-- <button type="button" name="button" id="next-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Next Sol</button> -->
             <!-- <button type="button" name="button" id="next-ten" class="button-primary">Next Ten</button>
             <button type="button" name="button" id="next-hundred" class="button-primary">Next Hundred</button> -->
           </article>
@@ -109,8 +104,8 @@
               <img src="" id='main-photo'/>
             </section>
           <article class="prev">
-            <button type="button" name="button" id="prev-photo" class="button-primary col-xs-6 col-md-6 col-sm-6">Previous Photo</button>
-            <button type="button" name="button" id="prev-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Previous Sol</button>
+            <button type="button" name="button" id="prev-photo" class="button-primary col-xs-12 col-md-12 col-sm-12">Previous Photo</button>
+            <!-- <button type="button" name="button" id="prev-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Previous Sol</button> -->
           </article>
           <section class="cam-buttons u-full-width"></section>
         </form>
@@ -150,6 +145,7 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 

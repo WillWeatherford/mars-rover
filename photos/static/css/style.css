@@ -104,13 +104,13 @@ hr {
 }
 
 /* Home Style */
-header {
+/*header {
 	background: url(../img/hq_3.jpg) no-repeat bottom center;
 	background-size: cover;
 	color: #d9e0e2;
 	position: relative;
 	height: 100%;
-}
+}*/
 header p {
 	color: #d9e0e2;
 	font-size: 20px;
