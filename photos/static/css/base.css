@@ -1,0 +1,18 @@
+
+
+#concur_container {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+
+#diff_camera {
+	display: inline;
+}
+
+#concurrent_img {
+	display: inline;
+	height: 200px;
+	width: 200px;
+}
+

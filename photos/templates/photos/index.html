@@ -23,8 +23,7 @@
     <link href="{% static 'css/base.css' %}" rel="stylesheet">
     <link href="{% static 'css/module.css' %}" rel="stylesheet">
     <link href="{% static 'css/map.css' %}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"  href="{% static 'css/style.css' %}">
-
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 
     <!-- Custom CSS -->
@@ -41,22 +40,20 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script id="cam-details" type="text/x-handlebars-template">
-        <div class="camera-info twelve columns">
-          <div class="rover-div">
-            <h5 class="rover-title">{{rover}}<h5>
-          </div>
-          <h5>Sol: </h5>
+<!--     <script id="cam-template" type="text/x-handlebars-template">
+        <div class="camera-button two columns">
+          <img src="{{ img_src }}" id="{{0}}">
+          <h5>{{ camera.full_name }}</h5>
         </div>
-    </script>
+    </script> -->
 
 </head>
 
 <body>
 
-<!-- <div id="preloader">
+    <div id="preloader">
       <div id="status"> <img src="{% static 'img/preloader.gif' %}" height="64" width="64" alt=""> </div>
-    </div> -->
+    </div>
 
     <!-- ================================== -->
     <!-- ========= NAVIGATATION =========== -->
@@ -163,6 +160,20 @@
               <img src="" id='main-photo' style="width:100%; height:100%; padding-top: 70px; " />
             </section>     
           </section>   
+      </div>
+
+      <!-- <section id="concurrent-photos"></section> -->
+      <div class="container">
+
+          <section class="row" id="concur_container">
+
+              <!-- <img src="" id="concurrent_img"> -->
+              
+              
+              <!-- <h3 id="diff_camera"></h3> -->
+                  
+          </section>
+          
       </div>
 
     </section>
@@ -380,7 +391,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <ul class="list-inline">
+              <!--       <ul class="list-inline">
                         <li>
                             <a href="/">Home</a>
                         </li>
@@ -396,7 +407,7 @@
                         <li>
                             <a href="#contact">Contact</a>
                         </li>
-                    </ul>
+                    </ul> -->
                     <p class="copyright text-muted small">Copyright &copy; Mars Street View 2016</p>
                 </div>
             </div>
@@ -404,14 +415,14 @@
     </footer>
 
     <!-- jQuery -->
-    <script src="{% static 'js/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 
-    <script src="{% static 'js/main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 

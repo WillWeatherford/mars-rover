@@ -47,11 +47,17 @@ $('#Spirit').on('click', function(e){
     getRover(roverURL, 'Spirit');
 })
 
-function SolInfo (opts) {
-  for(var key in opts) {
-    this[key] = opts[key];
-  }
-}
+// function SolInfo (opts) {
+//   for(var key in opts) {
+//     this[key] = opts[key];
+//   }
+// }
+
+// SolInfo.prototype.toHtml = function() {
+//   var source = $('#cam-template').html();
+//   var templateRender = Handlebars.compile(source);
+//   return templateRender(this);
+// };
 
 
 function getRover(url, rover) {
@@ -64,7 +70,8 @@ function getRover(url, rover) {
 
             var concurrentArray = []
             var conArray = []
-            // console.log(response);
+
+            console.log(response);
             $('#home_slider').hide();
 
             $('#rover_nav').show();
@@ -84,27 +91,35 @@ function getRover(url, rover) {
                 window.scrollTo(0,0);
             });
 
+            // for (var i = 0; i < response.concurrent.length; i++) {
+            //     if (response.concurrent[i].img_src !== "notreal.jpg") {
+            //         // console.log(response.concurrent[i])
+            //         concurrentArray.push(response.concurrent[i]);
+            //     }
+            // }
+            // var different_cam = $('#diff_camera').text(response.concurrent[0].camera.full_name);
+            // var contains[1] = $('#concurrent_img').attr('src', response.concurrent[0].img_src);
             for (var i = 0; i < response.concurrent.length; i++) {
-                if (response.concurrent[i].img_src !== "notreal.jpg") {
-                    // console.log(response.concurrent[i])
-                    concurrentArray.push(response.concurrent[i]);
-                }
+                $('#concur_container').append('<img src="' + response.concurrent[i].img_src + '" id="concurrent_img">');
             }
+
+
+
             // console.log(concurrentArray)
             currentPhoto = response;
 
 
-            concurrentArray.forEach(function(ele){
-                conArray.push(new SolInfo(ele));
-            });
-            console.log(conArray);
+            // concurrentArray.forEach(function(ele){
+            //     conArray.push(new SolInfo(ele));
+            // });
+            // console.log(conArray);
 
 
 
-            conArray.forEach(function(a){
-                console.log(a);
-                // $('#neighborhoods').append(ourNewNeighborhoodObject.toHtml());
-            });
+            // conArray.forEach(function(a){
+            //     // console.log(a);
+            //     $('#concurrent-photos').append(a.toHtml());
+            // });
 
 
             // SolInfo.loadall(response)
