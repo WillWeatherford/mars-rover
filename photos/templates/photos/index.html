@@ -63,66 +63,123 @@
                 <a class="navbar-brand topnav" href="/"><img height="31px" src="{% static 'img/msv_logo.svg' %}"></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
+                    <span id="home_nav">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#rovers">Rovers</a>
-                    </li>
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#contact">Contact Us</a>
-                    </li>
+                        <li>
+                            <a href="#rovers">Rovers</a>
+                        </li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Contact Us</a>
+                        </li>
+                        </ul>
+            </div>
+                    </span>
+                    <span id="rover_nav">
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+
                 </ul>
             </div>
+                    </span>
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
 
-    <header id="myCarousel" class="carousel slide">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
+    <section id="rover_view">
+      <section class="change_sol" style="margin-top: 70px;">
+          
+          <form id="sol" action='post'>
+              Change Sol:<br>
+              <input type="text" name="sol">
+              <input type="submit" name="sol" id="submit_sol"><br>
+          </form>
 
-        <!-- Wrapper for Slides -->
-        <div class="carousel-inner">
-            <div class="item active">
-                <!-- Set the first background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://www.extremetech.com/wp-content/uploads/2016/01/Opportunity.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>Opportunity</h2>
+      </section>
+
+      <section class="camera-info"></section>
+
+      <!-- MOBILE ROVER PAGE -->
+      <section id="rover-view">
+        <section class="camera-info"></section>
+        <form class="rover-form">
+          <article class="next" style="margin-top: 20px">
+            <button type="button" name="button" id="next-photo" class="button-primary col-xs-12 col-md-12 col-sm-12">Next Photo</button>
+            <!-- <button type="button" name="button" id="next-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Next Sol</button> -->
+            <!-- <button type="button" name="button" id="next-ten" class="button-primary">Next Ten</button>
+            <button type="button" name="button" id="next-hundred" class="button-primary">Next Hundred</button> -->
+          </article>
+            <section class="main-section" style="height:530px;">
+              <img src="" id='main-photo'/>
+            </section>
+          <article class="prev">
+            <button type="button" name="button" id="prev-photo" class="button-primary col-xs-12 col-md-12 col-sm-12">Previous Photo</button>
+            <!-- <button type="button" name="button" id="prev-sol" class="button-primary right col-xs-6 col-md-6 col-sm-6">Previous Sol</button> -->
+          </article>
+          <section class="cam-buttons u-full-width"></section>
+        </form>
+      </section>        
+
+    </section>
+
+
+    <span id="home_slider">
+        
+        <header id="myCarousel" class="carousel slide">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+
+            <!-- Wrapper for Slides -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <!-- Set the first background image using inline CSS below. -->
+                    <div class="fill" style="background-image:url('http://www.extremetech.com/wp-content/uploads/2016/01/Opportunity.jpg');"></div>
+                    <div class="carousel-caption">
+                        <h2>Opportunity</h2>
+                    </div>
+                </div>
+                <div class="item">
+                    <!-- Set the second background image using inline CSS below. -->
+                    <div class="fill" style="background-image:url('http://www.3dvisionlive.com/sites/default/files/Curiosity_render_hiresb.jpg');"></div>
+                    <div class="carousel-caption">
+                        <h2>Curiosity</h2>
+                    </div>
+                </div>
+                <div class="item">
+                    <!-- Set the third background image using inline CSS below. -->
+                    <div class="fill" style="background-image:url('http://www.universetoday.com/wp-content/uploads/2008/10/five_years_on_mars-4_10240768.jpg');"></div>
+                    <div class="carousel-caption">
+                        <h2>Spirit</h2>
+                    </div>
                 </div>
             </div>
-            <div class="item">
-                <!-- Set the second background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://www.3dvisionlive.com/sites/default/files/Curiosity_render_hiresb.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>Curiosity</h2>
-                </div>
-            </div>
-            <div class="item">
-                <!-- Set the third background image using inline CSS below. -->
-                <div class="fill" style="background-image:url('http://www.universetoday.com/wp-content/uploads/2008/10/five_years_on_mars-4_10240768.jpg');"></div>
-                <div class="carousel-caption">
-                    <h2>Spirit</h2>
-                </div>
-            </div>
-        </div>
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <span class="icon-prev"></span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <span class="icon-next"></span>
-        </a>
+            <!-- Controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="icon-prev"></span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                <span class="icon-next"></span>
+            </a>
 
-    </header>
+        </header>
+
+    </span>
+
+
+    <section id="main_home">
+
 
     <!-- /.intro-header -->
 
@@ -282,6 +339,13 @@
 
     </div>
     <!-- /.banner -->
+
+
+    </section>
+
+
+ 
+
 
     <!-- Footer -->
     <footer>
