@@ -17,6 +17,7 @@ $('#rover_view').hide();
 $('#rover_nav').hide();
 
 var currentPhoto;
+var camButtons = [];
 
 var curiosity = 'Curiosity';
 var opportunity = 'Opportunity';
@@ -100,14 +101,31 @@ function getRover(url, rover) {
             // var different_cam = $('#diff_camera').text(response.concurrent[0].camera.full_name);
             // var contains[1] = $('#concurrent_img').attr('src', response.concurrent[0].img_src);
             for (var i = 0; i < response.concurrent.length; i++) {
-                $('#concur_container').append('<img src="' + response.concurrent[i].img_src + '" id="concurrent_img">');
+                $('#concur_container').append('<h3 id="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                if (response.concurrent[i].img_src === 'notreal.jpg') {
+                    $('#concur_container').append('<img src="/static/img/null_rover.jpg" id="concurrent_img">');
+                } else {
+                    camButtons.push(i);
+                    $('#concur_container').append('<img class="' + i + '" src="' + response.concurrent[i].img_src + '" id="concurrent_img"></a>');
+                    $('#concur_container').append('<button type="button" name="button" id="' + i + '" class="button-primary col-xs-3 col-md-6 col-sm-12">Switch Camera</button>');
+                }
             }
 
-
+            // for (var i = 0; i < camButtons.length; i++) {
+            //     Things[i]
+            // }
 
             // console.log(concurrentArray)
             currentPhoto = response;
-
+            k = 0;
+            for (var j = 0; j < camButtons.length; j++) {
+                $('#' + camButtons[j]).on('click', function() {
+                    // console.log(response)
+                    fetchPhotos(currentPhoto.concurrent[k].url)
+                    // console.log(response.concurrent[k].url)
+                    k = k + 1;
+                })
+            }
 
             // concurrentArray.forEach(function(ele){
             //     conArray.push(new SolInfo(ele));
@@ -128,8 +146,11 @@ function getRover(url, rover) {
     });
 };
 
-
-
+// for (var i = 0; i < camButtons.length; i++) {
+//     $('#' + camButtons[i]).on('click', function() {
+//         console.log(currentPhoto)
+//     })
+// }
 
 
 
@@ -156,6 +177,15 @@ function fetchPhotos(url) {
         	currentPhoto = response
         	// SolInfo.loadall(response)
         	// buildSolInfo();
+            k = 0;
+            for (var j = 0; j < camButtons.length; j++) {
+                $('#' + camButtons[j]).on('click', function() {
+                    // console.log(response)
+                    fetchPhotos(currentPhoto.concurrent[k].url)
+                    // console.log(response.concurrent[k].url)
+                    k = k + 1;
+                })
+            }
         }
     });
 }
