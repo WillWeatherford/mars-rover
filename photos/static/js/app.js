@@ -1,18 +1,4 @@
 
-
-// $('article.rover-info').hide();
-// $('.rover-info').removeClass('hidden')
-
-// $('.map-loc').hover(function(){
-//     $('.welcome').hide();
-// 	$('article[rover-lower="' + $(this).attr('id') + '"]').fadeIn(200);
-// 	console.log($(this).attr('id'));
-// }, function(){
-// 	$('article.rover-info').hide();
-// 	$('.welcome').fadeIn(200);
-// })
-
-// $('#main_home').show();
 $('#rover_view').hide();
 $('#rover_nav').hide();
 
@@ -48,17 +34,6 @@ $('#Spirit').on('click', function(e){
     getRover(roverURL, 'Spirit');
 })
 
-// function SolInfo (opts) {
-//   for(var key in opts) {
-//     this[key] = opts[key];
-//   }
-// }
-
-// SolInfo.prototype.toHtml = function() {
-//   var source = $('#cam-template').html();
-//   var templateRender = Handlebars.compile(source);
-//   return templateRender(this);
-// };
 
 
 function getRover(url, rover) {
@@ -72,7 +47,6 @@ function getRover(url, rover) {
             var concurrentArray = []
             var conArray = []
 
-            console.log(response);
             $('#home_slider').hide();
 
             $('#rover_nav').show();
@@ -92,67 +66,31 @@ function getRover(url, rover) {
                 window.scrollTo(0,0);
             });
 
-            // for (var i = 0; i < response.concurrent.length; i++) {
-            //     if (response.concurrent[i].img_src !== "notreal.jpg") {
-            //         // console.log(response.concurrent[i])
-            //         concurrentArray.push(response.concurrent[i]);
-            //     }
-            // }
-            // var different_cam = $('#diff_camera').text(response.concurrent[0].camera.full_name);
-            // var contains[1] = $('#concurrent_img').attr('src', response.concurrent[0].img_src);
             for (var i = 0; i < response.concurrent.length; i++) {
                 $('#concur_container').append('<h3 id="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
                 if (response.concurrent[i].img_src === 'notreal.jpg') {
                     $('#concur_container').append('<img src="/static/img/null_rover.jpg" id="concurrent_img">');
+                    $('#concur_container').append('<button type="button" name="button" id="cam_button_' + i + '" class="button-primary col-xs-3 col-md-6 col-sm-12">Switch Camera</button>');
+
                 } else {
-                    camButtons.push(i);
                     $('#concur_container').append('<img class="' + i + '" src="' + response.concurrent[i].img_src + '" id="concurrent_img"></a>');
-                    $('#concur_container').append('<button type="button" name="button" id="' + i + '" class="button-primary col-xs-3 col-md-6 col-sm-12">Switch Camera</button>');
+                    $('#concur_container').append('<button type="button" name="button" id="cam_button_' + i + '" class="button-primary col-xs-3 col-md-6 col-sm-12">Switch Camera</button>');
                 }
+                camButtons.push(i);
             }
 
-            // for (var i = 0; i < camButtons.length; i++) {
-            //     Things[i]
-            // }
-
-            // console.log(concurrentArray)
             currentPhoto = response;
-            k = 0;
-            for (var j = 0; j < camButtons.length; j++) {
-                $('#' + camButtons[j]).on('click', function() {
-                    // console.log(response)
-                    fetchPhotos(currentPhoto.concurrent[k].url)
-                    // console.log(response.concurrent[k].url)
-                    k = k + 1;
-                })
+
+            for (var i = 0; i < camButtons.length; i++) {
+                (function(i) {
+                    $('#cam_button_' + camButtons[i]).on('click', function() {
+                        fetchPhotos(response.concurrent[i].url)
+                    })
+                })(i);
             }
-
-            // concurrentArray.forEach(function(ele){
-            //     conArray.push(new SolInfo(ele));
-            // });
-            // console.log(conArray);
-
-
-
-            // conArray.forEach(function(a){
-            //     // console.log(a);
-            //     $('#concurrent-photos').append(a.toHtml());
-            // });
-
-
-            // SolInfo.loadall(response)
-            // buildSolInfo();
         }
     });
 };
-
-// for (var i = 0; i < camButtons.length; i++) {
-//     $('#' + camButtons[i]).on('click', function() {
-//         console.log(currentPhoto)
-//     })
-// }
-
-
 
 
 
@@ -164,28 +102,24 @@ function fetchPhotos(url) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
-            console.log(response)
-        	// $('#main-photo').attr('src', response.img_src);
-            if (response.next_photo === null || response.prev_photo === null) {
-                $('#main-photo').attr('src', '/static/img/null_rover.jpg');
-            } else {
-                $('#main-photo').attr('src', response.img_src);
-            }
+            // if (response.next_photo === null || response.prev_photo === null) {
+            //     $('#main-photo').attr('src', '/static/img/null_rover.jpg');
+            // } else {
+            $('#main-photo').attr('src', response.img_src);
+            // }
             $('#camera_name').text('Camera: ' + response.camera.full_name);
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
         	currentPhoto = response
-        	// SolInfo.loadall(response)
-        	// buildSolInfo();
-            k = 0;
-            for (var j = 0; j < camButtons.length; j++) {
-                $('#' + camButtons[j]).on('click', function() {
-                    // console.log(response)
-                    fetchPhotos(currentPhoto.concurrent[k].url)
-                    // console.log(response.concurrent[k].url)
-                    k = k + 1;
-                })
-            }
+            // k = 0;
+            // for (var j = 0; j < camButtons.length; j++) {
+            //     $('#' + camButtons[j]).on('click', function() {
+            //         // console.log(response)
+            //         fetchPhotos(currentPhoto.concurrent[k].url)
+            //         // console.log(response.concurrent[k].url)
+            //         k = k + 1;
+            //     })
+            // }
         }
     });
 }
@@ -217,12 +151,6 @@ $('#prev-photo').on('click', function(){
 
 
 
-
-
-
-
-
-
 // FETCH THE ROVER
 function fetchRover(url, rover) {
     $.ajax({
@@ -231,16 +159,10 @@ function fetchRover(url, rover) {
         dataType: 'json',
         success: function(response){
         	$('#main-photo').attr('src', response.img_src);
-        	currentPhoto = response;
-        	SolInfo.loadall(response);
-        	buildSolInfo();
+
         }
     });
 }
-
-
-
-
 
 
 
@@ -253,7 +175,6 @@ function fetchRoverBySol(url, rover, sol, cam) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
-        	// $('#main-photo').attr('src', response.img_src);
             if (response.next_photo === null) {
                 $('#main-photo').attr('src', '/static/img/null_rover.jpg');
             } else {
@@ -262,8 +183,7 @@ function fetchRoverBySol(url, rover, sol, cam) {
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
         	currentPhoto = response;
-        	// SolInfo.loadall(response);
-        	// buildSolInfo();
+
         }
     });
 }
@@ -286,16 +206,6 @@ $('#submit_sol').on('click', function(e){
 
 
 
-
-
-
-
-
-
-
-
-
-
 function fetchBySol(url, rover, sol, cam) {
 	$.ajax({
         url: url + rover
@@ -304,7 +214,13 @@ function fetchBySol(url, rover, sol, cam) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
-        	$('#main-photo').attr('src', response.img_src);
+        	if (response.img_src === 'notreal.jpg') {
+                $('#main-photo').attr('src', '/static/img/null_rover.jpg');
+            } else {
+                $('#main-photo').attr('src', response.img_src);
+            }
+            $('#sol_date').text('Sol Date: ' + response.sol);
+            $('#earth_date').text('Earth Date: ' + response.earth_date);
         	currentPhoto = response;
         	// SolInfo.loadall(response);
         	// buildSolInfo();
@@ -313,58 +229,5 @@ function fetchBySol(url, rover, sol, cam) {
 }
 
 
-
-// function SolInfo(details) {
-// 	var j = 0;
-// 	details.concurrent.forEach(function(i){
-// 		var word = 'cam_' + String(j)
-// 		this.word = i
-// 		j = j + 1; 
-// 	});
-// }
-
-// SolInfo.all = []
-// SolInfo.loadall = function(response) {
-//     SolInfo.all = [];
-//     // if (response.concurrent){
-//     //     SolInfo.all.push(new SolInfo(response))
-//     // console.log(SolInfo.all)
-//     // }
-
-// 	photo_list = response.concurrent;
-// 	for (var i = 0; i < photo_list.length; i++) {
-// 		for (var property in photo_list[i]) {
-// 	        if (photo_list[i].length > 0){
-// 	            SolInfo.all.push(new SolInfo(photo_list[i]))
-// 	        }
-// 	    }
-// 	}
-
-// };
-
-// SolInfo.prototype.compileTemplateInfo = function(){
-//     var source = $('#cam-details').html();
-//     template = Handlebars.compile(source)
-//     return template(this)
-// }
-
-
-// function buildSolInfo(){
-//     $('.camera-info').empty();
-//     SolInfo.all.forEach(function(a){
-//         $('.camera-info').append(a.compileTemplateInfo());
-//     });
-// }
-
-
-
-
-// $('#curioisity_rover').on('click', function(e){
-//     e.preventDefault();
-// 	console.log('HEY ', e)
-// 	rover = e.target.data[rover];
-// 	console.log(rover);
-
-// })
 
 
