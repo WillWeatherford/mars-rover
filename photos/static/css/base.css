@@ -6,12 +6,12 @@
 	flex-direction: column;
 }
 
-#diff_camera {
+.diff_camera {
 	display: inline;
 }
 
-#concurrent_img {
-	display: inline;
+.concurrent_img {
+	/*display: inline;*/
 	height: 200px;
 	width: 200px;
 }
