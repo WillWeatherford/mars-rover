@@ -9,6 +9,6 @@ ALLOWED_HOSTS.extend(
      ]
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = ('staticfiles', 'js')
+STATICFILES_DIRS = ('js', )
 
 SITE_URL = 'http://marsrover.will-weatherford.com'
