@@ -1,18 +1,34 @@
 
 
-#concur_container {
+#concur_name {
 	display: flex;
+	justify-content: center;
+}
+
+#concur_container {
+	display: inline-flex;
 	justify-content: space-around;
-	flex-direction: column;
+	flex-direction: row;
+	/*margin-top: 0px;*/
 }
 
 .diff_camera {
-	display: inline;
+	/*display: inline;*/
 }
 
 .concurrent_img {
 	/*display: inline;*/
-	height: 200px;
-	width: 200px;
+	height: 250px;
+	width: 250px;
+}
+
+.div_concur {
+	/*margin-right: 20px;*/
+	/*margin-left: 10px;*/
+	/*display: flex;*/
+	/*justify-content: space-around;*/
+	/*height: 250px;*/
+	/*width: 200px; */
+
 }
 
