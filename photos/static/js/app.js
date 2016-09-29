@@ -64,13 +64,13 @@ function getRover(url, rover) {
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
             
-            // $(document).ready(function () {
-            //     window.scrollTo(0,0);
-            // });
+            $(document).ready(function () {
+                window.scrollTo(0,0);
+            });
 
             for (var i = 0; i < response.concurrent.length; i++) {
                 $('#concur_container').append('<div class="div_concur row" id="div_' + i + '"></div>')
-                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                $('#div_' + i ).append('<h4 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h4>')
                 $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
                 $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
                 camButtons.push(i);
@@ -112,13 +112,13 @@ function fetchPhotos(url) {
                 $('.' + i).remove();
             }
 
-            // $(document).ready(function () {
-            //     window.scrollTo(0,0);
-            // });
+            $(document).ready(function () {
+                window.scrollTo(0,0);
+            });
 
             for (var i = 0; i < response.concurrent.length; i++) {
                 $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
-                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                $('#div_' + i ).append('<h4 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h4>')
                 $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
                 $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
                 camButtons.push(i);
@@ -197,13 +197,13 @@ function fetchRoverBySol(url, rover, sol, cam) {
                 $('.' + i).remove();
             }
 
-            // $(document).ready(function () {
-            //     window.scrollTo(0,0);
-            // });
+            $(document).ready(function () {
+                window.scrollTo(0,0);
+            });
 
             for (var i = 0; i < response.concurrent.length; i++) {
                 $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
-                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                $('#div_' + i ).append('<h4 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h4>')
                 $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
                 $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
                 camButtons.push(i);
@@ -263,7 +263,7 @@ function fetchBySol(url, rover, sol, cam) {
 
             for (var i = 0; i < response.concurrent.length; i++) {
                 $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
-                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                $('#div_' + i ).append('<h4 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h4>')
                 $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
                 $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
                 camButtons.push(i);
