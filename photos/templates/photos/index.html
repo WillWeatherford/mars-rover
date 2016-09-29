@@ -129,7 +129,7 @@
                     <h4 id="sol_date"></h4>
                     <form id="sol" action='post'>
                         Change Sol:<br>
-                        <input type="text" name="sol">
+                        <input id="sol_input" type="text" name="sol">
                         <input type="submit" name="sol" id="submit_sol"><br>
                     </form>
 
@@ -165,7 +165,9 @@
       <!-- <section id="concurrent-photos"></section> -->
       <div class="container">
 
-          <section class="row" id="concur_container">
+          <h1 id="concur_name" style="margin-top: 50px;">Pick a different camera! <span class="glyphicon glyphicon-arrow-down"></span></h1>
+
+          <section id="concur_container" class="button-primary">
 
               <!-- <img src="" id="concurrent_img"> -->
               
@@ -429,7 +431,7 @@
     <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({
-        interval: 1700 //changes the speed
+        interval: 3000 //changes the speed
     })
     </script>
 
