@@ -89,16 +89,17 @@ def populate_photos(sol_limit=None):
                 print('Creating photo:\n{}\n'.format(photo))
 
                 # Prepare params for init --overwrite dict with model
+                prev_photo = good_prev[rover.name][camera.name]
                 photo['rover'] = rover
                 photo['camera'] = camera
+                photo['prev_photo'] = prev_photo
                 new_photo = Photo(**photo)
+                new_photo.save()
 
                 # Crucial association of prev_photo/next_photo relationship
-                prev_photo = good_prev[rover.name][camera.name]
-                new_photo.prev_photo = prev_photo
-                prev_photo.next_photo = new_photo
-                new_photo.save()
-                prev_photo.save()
+                if prev_photo:
+                    prev_photo.next_photo = new_photo
+                    prev_photo.save()
 
                 good_prev[rover.name][camera.name] = new_photo
 
@@ -125,9 +126,9 @@ def populate_photos(sol_limit=None):
                     rover=rover,
                     prev_photo=good_prev[rover.name][camera.name],
                 )
-                photo.save()
-                photos_this_sol[camera.name] = [null_photo]
+                null_photo.save()
                 null_prev[rover.name][camera.name].add(null_photo)
+                photos_this_sol[camera.name] = [null_photo]
 
         set_concurrent(photos_this_sol)
 
@@ -206,4 +207,4 @@ if __name__ == '__main__':
 
     rover_data = get_initial_data()
     populate_rovers_and_cameras(rover_data)
-    populate_photos(10)
+    populate_photos(6)
