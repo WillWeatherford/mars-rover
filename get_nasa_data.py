@@ -164,17 +164,17 @@ def get_photos(url, sol, camera, api_key):
         page_photos = make_page_request(url, sol, camera, api_key, page)
         print('{} photos: sol={}, camera={}, page={}'.format(
             len(page_photos), sol, camera, page))
+        page_photos = [p for p in page_photos if p["id"] not in found_ids]
         if not page_photos:
             break
         for photo in page_photos:
-            if photo["id"] not in found_ids:
-                found_ids.add(photo['id'])
-                yield photo
+            found_ids.add(photo['id'])
+            yield photo
 
 
 def make_page_request(url, sol, camera, api_key, page):
     """Make one page request from NASA API."""
-    time.sleep(0.5)
+    time.sleep(0.4)
     params = {
         'sol': sol,
         'camera': camera,
@@ -182,7 +182,10 @@ def make_page_request(url, sol, camera, api_key, page):
         'page': page,
     }
     response = requests.get(url, params=params)
+    # Pre-empt API request limit by checking requests left in headers
     if response.status_code != 200:
+        if response.status_code == 429:
+            print('API REQUESTS EXCEEDED.')
         return []
     return response.json()['photos']
 
