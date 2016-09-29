@@ -6,9 +6,9 @@
 }
 
 #concur_container {
-	display: inline-flex;
-	justify-content: space-around;
-	flex-direction: row;
+	display: inline-flex; 
+	/*justify-content: space-around;*/
+	/*flex-direction: row;*/
 	/*margin-top: 0px;*/
 }
 

@@ -61,13 +61,13 @@ function getRover(url, rover) {
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
             
-            $(document).ready(function () {
-                window.scrollTo(0,0);
-            });
+            // $(document).ready(function () {
+            //     window.scrollTo(0,0);
+            // });
 
             for (var i = 0; i < response.concurrent.length; i++) {
 
-                $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>')
+                $('#concur_container').append('<div class="div_concur row" id="div_' + i + '"></div>')
 
                 $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
                 if (response.concurrent[i].img_src === 'notreal.jpg') {
@@ -120,9 +120,9 @@ function fetchPhotos(url) {
                 $('.' + i).remove();
             }
 
-            $(document).ready(function () {
-                window.scrollTo(0,0);
-            });
+            // $(document).ready(function () {
+            //     window.scrollTo(0,0);
+            // });
 
             for (var i = 0; i < response.concurrent.length; i++) {
 
@@ -197,6 +197,7 @@ function fetchRover(url, rover) {
 
 
 function fetchRoverBySol(url, rover, sol, cam) {
+    console.log(url, rover, sol, cam)
     $.ajax({
         url: url + rover
         	 + '?sol=' + sol 
@@ -221,9 +222,9 @@ function fetchRoverBySol(url, rover, sol, cam) {
                 $('.' + i).remove();
             }
 
-            $(document).ready(function () {
-                window.scrollTo(0,0);
-            });
+            // $(document).ready(function () {
+            //     window.scrollTo(0,0);
+            // });
 
             for (var i = 0; i < response.concurrent.length; i++) {
 
@@ -275,6 +276,7 @@ $('#submit_sol').on('click', function(e){
 
 
 function fetchBySol(url, rover, sol, cam) {
+    console.log(url, rover, sol, cam)
 	$.ajax({
         url: url + rover
         	 + '?sol=' + sol 
@@ -282,6 +284,7 @@ function fetchBySol(url, rover, sol, cam) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
+
             $('#sol_input').val('');
             console.log(response);
         	if (response.img_src === 'notreal.jpg') {
@@ -301,9 +304,9 @@ function fetchBySol(url, rover, sol, cam) {
                 $('.' + i).remove();
             }
 
-            $(document).ready(function () {
-                window.scrollTo(0,0);
-            });
+            // $(document).ready(function () {
+            //     window.scrollTo(0,0);
+            // });
 
             for (var i = 0; i < response.concurrent.length; i++) {
 
