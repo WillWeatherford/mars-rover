@@ -37,7 +37,6 @@ $('#Spirit').on('click', function(e){
 
 
 function getRover(url, rover) {
-    console.log('hey')
     $.ajax({
         url: url + rover,
         type: 'GET',
@@ -67,23 +66,26 @@ function getRover(url, rover) {
             });
 
             for (var i = 0; i < response.concurrent.length; i++) {
-                $('#concur_container').append('<h3 id="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+
+                $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>')
+
+                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
                 if (response.concurrent[i].img_src === 'notreal.jpg') {
-                    $('#concur_container').append('<img src="/static/img/null_rover.jpg" id="concurrent_img">');
-                    $('#concur_container').append('<button type="button" name="button" id="cam_button_' + i + '" class="button-primary col-xs-3 col-md-6 col-sm-12">Switch Camera</button>');
+                    $('#div_' + i ).append('<img src="/static/img/null_rover.jpg" class="concurrent_img">');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
 
                 } else {
-                    $('#concur_container').append('<img class="' + i + '" src="' + response.concurrent[i].img_src + '" id="concurrent_img"></a>');
-                    $('#concur_container').append('<button type="button" name="button" id="cam_button_' + i + '" class="button-primary col-xs-3 col-md-6 col-sm-12">Switch Camera</button>');
+                    $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
                 }
                 camButtons.push(i);
             }
-
             currentPhoto = response;
 
             for (var i = 0; i < camButtons.length; i++) {
                 (function(i) {
                     $('#cam_button_' + camButtons[i]).on('click', function() {
+                        console.log(i);
                         fetchPhotos(response.concurrent[i].url)
                     })
                 })(i);
@@ -110,16 +112,43 @@ function fetchPhotos(url) {
             $('#camera_name').text('Camera: ' + response.camera.full_name);
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
-        	currentPhoto = response
-            // k = 0;
-            // for (var j = 0; j < camButtons.length; j++) {
-            //     $('#' + camButtons[j]).on('click', function() {
-            //         // console.log(response)
-            //         fetchPhotos(currentPhoto.concurrent[k].url)
-            //         // console.log(response.concurrent[k].url)
-            //         k = k + 1;
-            //     })
-            // }
+
+            $('.diff_camera').remove();
+            $('.concurrent_img').remove();
+            for (var i = 0; i < response.concurrent.length; i++) {
+                $('#cam_button_' + i).remove();
+                $('.' + i).remove();
+            }
+
+            $(document).ready(function () {
+                window.scrollTo(0,0);
+            });
+
+            for (var i = 0; i < response.concurrent.length; i++) {
+
+                $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
+                
+                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                if (response.concurrent[i].img_src === 'notreal.jpg') {
+                    $('#div_' + i ).append('<img src="/static/img/null_rover.jpg" class="concurrent_img">');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+
+                } else {
+                    $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+                }
+                camButtons.push(i);
+            }
+
+            currentPhoto = response;
+
+            for (var i = 0; i < camButtons.length; i++) {
+                (function(i) {
+                    $('#cam_button_' + camButtons[i]).on('click', function() {
+                        fetchPhotos(response.concurrent[i].url);
+                    });
+                })(i);
+            }        
         }
     });
 }
@@ -175,6 +204,7 @@ function fetchRoverBySol(url, rover, sol, cam) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
+            console.log(response)
             if (response.next_photo === null) {
                 $('#main-photo').attr('src', '/static/img/null_rover.jpg');
             } else {
@@ -184,11 +214,49 @@ function fetchRoverBySol(url, rover, sol, cam) {
             $('#earth_date').text('Earth Date: ' + response.earth_date);
         	currentPhoto = response;
 
+            $('.diff_camera').remove();
+            $('.concurrent_img').remove();
+            for (var i = 0; i < response.concurrent.length; i++) {
+                $('#cam_button_' + i).remove();
+                $('.' + i).remove();
+            }
+
+            $(document).ready(function () {
+                window.scrollTo(0,0);
+            });
+
+            for (var i = 0; i < response.concurrent.length; i++) {
+
+                $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
+                
+                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                if (response.concurrent[i].img_src === 'notreal.jpg') {
+                    $('#div_' + i ).append('<img src="/static/img/null_rover.jpg" class="concurrent_img">');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+
+                } else {
+                    $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+                }
+                camButtons.push(i);
+            }
+
+            currentPhoto = response;
+
+            for (var i = 0; i < camButtons.length; i++) {
+                (function(i) {
+                    $('#cam_button_' + camButtons[i]).on('click', function() {
+                        fetchPhotos(response.concurrent[i].url);
+                    });
+                })(i);
+            }    
+
         }
     });
 }
 
 $('#next-sol').on('click', function(){
+    // fetchPhotos()
 	fetchRoverBySol(roverURL, opportunity, (currentPhoto.sol + 1), currentPhoto.camera.name);
 })
 
@@ -214,6 +282,8 @@ function fetchBySol(url, rover, sol, cam) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
+            $('#sol_input').val('');
+            console.log(response);
         	if (response.img_src === 'notreal.jpg') {
                 $('#main-photo').attr('src', '/static/img/null_rover.jpg');
             } else {
@@ -221,9 +291,50 @@ function fetchBySol(url, rover, sol, cam) {
             }
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
+
         	currentPhoto = response;
-        	// SolInfo.loadall(response);
-        	// buildSolInfo();
+        	
+                        $('.diff_camera').remove();
+            $('.concurrent_img').remove();
+            for (var i = 0; i < response.concurrent.length; i++) {
+                $('#cam_button_' + i).remove();
+                $('.' + i).remove();
+            }
+
+            $(document).ready(function () {
+                window.scrollTo(0,0);
+            });
+
+            for (var i = 0; i < response.concurrent.length; i++) {
+
+                $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
+                
+                $('#div_' + i ).append('<h3 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h3>')
+                if (response.concurrent[i].img_src === 'notreal.jpg') {
+                    $('#div_' + i ).append('<img src="/static/img/null_rover.jpg" class="concurrent_img">');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+
+                } else {
+                    $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+                }
+                camButtons.push(i);
+            }
+
+            currentPhoto = response;
+
+            // I need the url to maybe change
+
+            for (var i = 0; i < camButtons.length; i++) {
+                (function(i) {
+                    $('#cam_button_' + camButtons[i]).on('click', function() {
+                        console.log(response.concurrent[i].url)
+                        fetchPhotos(response.concurrent[i].url);
+                    });
+                })(i);
+            }  
+
+
         }
     });	
 }

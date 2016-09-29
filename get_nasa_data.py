@@ -12,17 +12,16 @@ from itertools import count, combinations
 import django
 django.setup()
 
-from photos.models import Photo, Rover, Camera
+from photos.models import Photo, Rover, Camera, NULL_IMG_SRC
 
 RIGHT_LENS = r'R.{3}\-BR\.JPG'
-LOW_RES_SPI_OPP = r'ESF.{7}\-BR\.JPG'
-BAD_CUR = r'.(M|D).{7}(NCAM|TRAV|SAPP).{7}\.JPG'
+LOW_RES_SPI_OPP = r'ESF.{5,15}\-BR\.JPG'
+BAD_CUR = r'.(M|D).{5,15}(NCAM|TRAV|SAPP).{5,15}\.JPG'
 BAD_PATS = (RIGHT_LENS, LOW_RES_SPI_OPP, BAD_CUR)
 
 BASE_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/{}/photos'
 INIT_DATA = os.path.join(os.path.dirname(__file__), 'initial_data.json')
 NASA_API_KEY = os.environ['NASA_API_KEY']
-NULL_IMG_SRC = 'notreal.jpg'
 DEFAULT_LAST_EARTH_DATE = '2004-01-04'
 
 
@@ -32,16 +31,18 @@ def get_initial_data():
         return json.load(json_file)
 
 
-def iter_sol_rover(max_sol):
+def iter_sol_rover(sol_limit):
     """Generate sol/rover combinations."""
     sol_counter = count()
     rovers = Rover.objects.all()
+    max_sol = max(rover.max_sol for rover in rovers)
     while True:
         sol = next(sol_counter)
-        if max_sol is not None and sol > max_sol:
+        if sol > max_sol or (sol_limit is not None and sol > sol_limit):
             break
         for rover in rovers:
-            yield sol, rover
+            if sol <= rover.max_sol:
+                yield sol, rover
 
 
 def make_rover_url(rover_name):
@@ -62,25 +63,24 @@ def populate_rovers_and_cameras(rover_data):
             new_camera.rover = new_rover
 
 
-def populate_photos(max_sol=None):
+def populate_photos(sol_limit=None):
     """Fill database with photos from NASA API."""
     api_key = NASA_API_KEY
     last_earth_date = DEFAULT_LAST_EARTH_DATE
     null_id_counter = count(1000000000)
+    good_prev = {}
+    null_prev = {}
 
-    rover_data = Rover.objects.all()
-    prev_photos = {
-        rover.name: {camera.name: None for camera in rover.cameras.all()}
-        for rover in rover_data
-    }
-
-    for sol, rover in iter_sol_rover(max_sol):
+    for sol, rover in iter_sol_rover(sol_limit):
         url = make_rover_url(rover.name)
 
         # Dict keeping track of just the photos from each cam at this sol.
         photos_this_sol = {}
 
         for camera in rover.cameras.all():
+            good_prev.setdefault(rover.name, {}).setdefault(camera.name, None)
+            null_prev.setdefault(rover.name, {}).setdefault(camera.name, set())
+
             photos = get_photos(url, sol, camera.name, api_key)
             photos = filter(is_good_photo, photos)
             photos = sorted(photos, key=itemgetter('img_src'))
@@ -89,28 +89,45 @@ def populate_photos(max_sol=None):
                 print('Creating photo:\n{}\n'.format(photo))
 
                 # Prepare params for init --overwrite dict with model
-                photo['camera'] = camera
+                prev_photo = good_prev[rover.name][camera.name]
                 photo['rover'] = rover
+                photo['camera'] = camera
+                photo['prev_photo'] = prev_photo
                 new_photo = Photo(**photo)
+                new_photo.save()
 
                 # Crucial association of prev_photo/next_photo relationship
-                if prev_photos[rover.name][camera.name] is not None:
-                    new_photo.prev_photo = prev_photos[rover.name][camera.name]
-                new_photo.save()
-                prev_photos[rover.name][camera.name] = new_photo
+                if prev_photo:
+                    prev_photo.next_photo = new_photo
+                    prev_photo.save()
 
+                good_prev[rover.name][camera.name] = new_photo
+
+                # Collect photos this sol for association as concurrent
                 photos_this_sol.setdefault(camera.name, []).append(new_photo)
 
+                # Set a connection from null photos to next good one
+                for null_photo in null_prev[rover.name][camera.name]:
+                    null_photo.next_photo = new_photo
+                    null_photo.save()
+                null_prev[rover.name][camera.name] = set()
+
+                # Update last_earth_date to set on null photos.
                 last_earth_date = max((last_earth_date, photo['earth_date']))
 
             if not photos:
-                null_photo = make_null_photo(
+                null_photo = Photo(
+                    is_null=True,
+                    img_src=NULL_IMG_SRC,
                     id=next(null_id_counter),
                     sol=sol,
                     earth_date=last_earth_date,
                     camera=camera,
-                    rover=rover
+                    rover=rover,
+                    prev_photo=good_prev[rover.name][camera.name],
                 )
+                null_photo.save()
+                null_prev[rover.name][camera.name].add(null_photo)
                 photos_this_sol[camera.name] = [null_photo]
 
         set_concurrent(photos_this_sol)
@@ -157,7 +174,7 @@ def get_photos(url, sol, camera, api_key):
 
 def make_page_request(url, sol, camera, api_key, page):
     """Make one page request from NASA API."""
-    time.sleep(0.4)
+    time.sleep(0.5)
     params = {
         'sol': sol,
         'camera': camera,
@@ -173,17 +190,6 @@ def make_page_request(url, sol, camera, api_key, page):
 def is_good_photo(photo):
     """Return True if photo is usable; False if it is a bad photo."""
     return all([re.search(pat, photo['img_src']) is None for pat in BAD_PATS])
-
-
-def make_null_photo(**kwargs):
-    """Enter a Photo into the database which is an empty placeholder."""
-    kwargs['img_src'] = NULL_IMG_SRC
-    new_photo = Photo(**kwargs)
-    new_photo.save()
-    print('Created null photo for rover={} camera={} sol={}'.format(
-        kwargs['rover'].name, kwargs['camera'].name, kwargs['sol']
-    ))
-    return new_photo
 
 
 if __name__ == '__main__':
