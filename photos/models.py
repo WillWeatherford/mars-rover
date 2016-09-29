@@ -1,5 +1,6 @@
 """Models for the Photos, Cameras and Rovers."""
 from django.db import models as md
+NULL_IMG_SRC = '/static/img/null_rover.jpg'
 
 
 class Photo(md.Model):
@@ -8,7 +9,7 @@ class Photo(md.Model):
     id = md.IntegerField(unique=True, primary_key=True)
     sol = md.IntegerField()
     earth_date = md.DateField()
-    img_src = md.URLField(max_length=400)
+    img_src = md.URLField(max_length=400, default=NULL_IMG_SRC)
     rover = md.ForeignKey('photos.Rover', related_name='photos')
     camera = md.ForeignKey('photos.Camera', related_name='photos')
     prev_photo = md.OneToOneField(

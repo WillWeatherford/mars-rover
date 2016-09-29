@@ -12,17 +12,16 @@ from itertools import count, combinations
 import django
 django.setup()
 
-from photos.models import Photo, Rover, Camera
+from photos.models import Photo, Rover, Camera, NULL_IMG_SRC
 
 RIGHT_LENS = r'R.{3}\-BR\.JPG'
-LOW_RES_SPI_OPP = r'ESF.{7}\-BR\.JPG'
-BAD_CUR = r'.(M|D).{7}(NCAM|TRAV|SAPP).{7}\.JPG'
+LOW_RES_SPI_OPP = r'ESF.{5,15}\-BR\.JPG'
+BAD_CUR = r'.(M|D).{5,15}(NCAM|TRAV|SAPP).{5,15}\.JPG'
 BAD_PATS = (RIGHT_LENS, LOW_RES_SPI_OPP, BAD_CUR)
 
 BASE_URL = 'https://api.nasa.gov/mars-photos/api/v1/rovers/{}/photos'
 INIT_DATA = os.path.join(os.path.dirname(__file__), 'initial_data.json')
 NASA_API_KEY = os.environ['NASA_API_KEY']
-NULL_IMG_SRC = 'notreal.jpg'
 DEFAULT_LAST_EARTH_DATE = '2004-01-04'
 
 
@@ -32,16 +31,18 @@ def get_initial_data():
         return json.load(json_file)
 
 
-def iter_sol_rover(max_sol):
+def iter_sol_rover(sol_limit):
     """Generate sol/rover combinations."""
     sol_counter = count()
     rovers = Rover.objects.all()
+    max_sol = max(rover.max_sol for rover in rovers)
     while True:
         sol = next(sol_counter)
-        if max_sol is not None and sol > max_sol:
+        if sol > max_sol or (sol_limit is not None and sol > sol_limit):
             break
         for rover in rovers:
-            yield sol, rover
+            if sol <= rover.max_sol:
+                yield sol, rover
 
 
 def make_rover_url(rover_name):
@@ -62,7 +63,7 @@ def populate_rovers_and_cameras(rover_data):
             new_camera.rover = new_rover
 
 
-def populate_photos(max_sol=None):
+def populate_photos(sol_limit=None):
     """Fill database with photos from NASA API."""
     api_key = NASA_API_KEY
     last_earth_date = DEFAULT_LAST_EARTH_DATE
@@ -74,7 +75,7 @@ def populate_photos(max_sol=None):
         for rover in rover_data
     }
 
-    for sol, rover in iter_sol_rover(max_sol):
+    for sol, rover in iter_sol_rover(sol_limit):
         url = make_rover_url(rover.name)
 
         # Dict keeping track of just the photos from each cam at this sol.
