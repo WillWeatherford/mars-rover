@@ -68,12 +68,7 @@ def populate_photos(sol_limit=None):
     api_key = NASA_API_KEY
     last_earth_date = DEFAULT_LAST_EARTH_DATE
     null_id_counter = count(1000000000)
-
-    rover_data = Rover.objects.all()
-    prev_photos = {
-        rover.name: {camera.name: None for camera in rover.cameras.all()}
-        for rover in rover_data
-    }
+    prev_photos = {}
 
     # waiting_for_next = {
     #     rover.name: {camera.name: set() for camera in rover.cameras.all()}
@@ -95,13 +90,13 @@ def populate_photos(sol_limit=None):
                 print('Creating photo:\n{}\n'.format(photo))
 
                 # Prepare params for init --overwrite dict with model
+                # Crucial association of prev_photo/next_photo relationship
+                prev = prev_photos.setdefault(rover.name, {}).setdefault(camera.name, None)
+                photo['prev_photo'] = prev
                 photo['camera'] = camera
                 photo['rover'] = rover
                 new_photo = Photo(**photo)
 
-                # Crucial association of prev_photo/next_photo relationship
-                if prev_photos[rover.name][camera.name] is not None:
-                    new_photo.prev_photo = prev_photos[rover.name][camera.name]
                 new_photo.save()
                 prev_photos[rover.name][camera.name] = new_photo
 
@@ -130,9 +125,9 @@ def populate_photos(sol_limit=None):
                 )
                 photos_this_sol[camera.name] = [null_photo]
 
-                if prev_photos[rover.name][camera.name] is not None:
-                    null_photo.prev_photo = prev_photos[rover.name][camera.name]
-                    null_photo.save()
+                # if prev_photos[rover.name][camera.name] is not None:
+                #     null_photo.prev_photo = prev_photos[rover.name][camera.name]
+                #     null_photo.save()
 
                 # waiting_for_next[rover.name][camera.name].add(null_photo)
 
@@ -180,7 +175,7 @@ def get_photos(url, sol, camera, api_key):
 
 def make_page_request(url, sol, camera, api_key, page):
     """Make one page request from NASA API."""
-    time.sleep(0.4)
+    # time.sleep(0.4)
     params = {
         'sol': sol,
         'camera': camera,
@@ -213,4 +208,4 @@ if __name__ == '__main__':
 
     rover_data = get_initial_data()
     populate_rovers_and_cameras(rover_data)
-    populate_photos()
+    populate_photos(10)

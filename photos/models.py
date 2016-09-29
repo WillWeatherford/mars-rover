@@ -18,6 +18,7 @@ class Photo(md.Model):
         null=True,
     )
     concurrent = md.ManyToManyField('self', symmetrical=False)
+    is_null = md.BooleanField(default=False)
 
 
 class Rover(md.Model):
