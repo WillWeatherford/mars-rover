@@ -68,12 +68,8 @@ def populate_photos(sol_limit=None):
     api_key = NASA_API_KEY
     last_earth_date = DEFAULT_LAST_EARTH_DATE
     null_id_counter = count(1000000000)
-    prev_photos = {}
-
-    waiting_for_next = {
-        rover.name: {camera.name: set() for camera in rover.cameras.all()}
-        for rover in rover_data
-    }
+    good_prev = {}
+    null_prev = {}
 
     for sol, rover in iter_sol_rover(sol_limit):
         url = make_rover_url(rover.name)
@@ -82,6 +78,9 @@ def populate_photos(sol_limit=None):
         photos_this_sol = {}
 
         for camera in rover.cameras.all():
+            good_prev.setdefault(rover.name, {}).setdefault(camera.name, None)
+            null_prev.setdefault(rover.name, {}).setdefault(camera.name, set())
+
             photos = get_photos(url, sol, camera.name, api_key)
             photos = filter(is_good_photo, photos)
             photos = sorted(photos, key=itemgetter('img_src'))
@@ -90,46 +89,45 @@ def populate_photos(sol_limit=None):
                 print('Creating photo:\n{}\n'.format(photo))
 
                 # Prepare params for init --overwrite dict with model
-                # Crucial association of prev_photo/next_photo relationship
-                prev = prev_photos.setdefault(rover.name, {}).setdefault(camera.name, None)
-                photo['prev_photo'] = prev
-                photo['camera'] = camera
                 photo['rover'] = rover
+                photo['camera'] = camera
                 new_photo = Photo(**photo)
 
+                # Crucial association of prev_photo/next_photo relationship
+                prev_photo = good_prev[rover.name][camera.name]
+                new_photo.prev_photo = prev_photo
+                prev_photo.next_photo = new_photo
                 new_photo.save()
-                prev_photos[rover.name][camera.name] = new_photo
+                prev_photo.save()
+
+                good_prev[rover.name][camera.name] = new_photo
 
                 # Collect photos this sol for association as concurrent
                 photos_this_sol.setdefault(camera.name, []).append(new_photo)
 
                 # Set a connection from null photos to next good one
-                need_next = waiting_for_next[rover.name][camera.name]
-                if need_next:
-                    for null_photo in need_next:
-                        null_photo.next_photo = new_photo
-                        null_photo.save()
-                    waiting_for_next[rover.name][camera.name] = set()
+                for null_photo in null_prev[rover.name][camera.name]:
+                    null_photo.next_photo = new_photo
+                    null_photo.save()
+                null_prev[rover.name][camera.name] = set()
 
                 # Update last_earth_date to set on null photos.
                 last_earth_date = max((last_earth_date, photo['earth_date']))
 
             if not photos:
-                null_photo = make_null_photo(
+                null_photo = Photo(
                     is_null=True,
+                    img_src=NULL_IMG_SRC,
                     id=next(null_id_counter),
                     sol=sol,
                     earth_date=last_earth_date,
                     camera=camera,
                     rover=rover,
+                    prev_photo=good_prev[rover.name][camera.name],
                 )
+                photo.save()
                 photos_this_sol[camera.name] = [null_photo]
-
-                if prev_photos[rover.name][camera.name] is not None:
-                    null_photo.prev_photo = prev_photos[rover.name][camera.name]
-                    null_photo.save()
-
-                waiting_for_next[rover.name][camera.name].add(null_photo)
+                null_prev[rover.name][camera.name].add(null_photo)
 
         set_concurrent(photos_this_sol)
 
