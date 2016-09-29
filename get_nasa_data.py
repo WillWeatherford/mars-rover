@@ -174,7 +174,7 @@ def get_photos(url, sol, camera, api_key):
 
 def make_page_request(url, sol, camera, api_key, page):
     """Make one page request from NASA API."""
-    # time.sleep(0.4)
+    time.sleep(0.5)
     params = {
         'sol': sol,
         'camera': camera,
@@ -196,4 +196,4 @@ if __name__ == '__main__':
 
     rover_data = get_initial_data()
     populate_rovers_and_cameras(rover_data)
-    populate_photos(6)
+    populate_photos()
