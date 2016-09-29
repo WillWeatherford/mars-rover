@@ -6,19 +6,26 @@ NULL_IMG_SRC = '/static/img/null_rover.jpg'
 class Photo(md.Model):
     """Data for one photo from a NASA Mars Rover."""
 
-    id = md.IntegerField(unique=True, primary_key=True)
-    sol = md.IntegerField()
-    earth_date = md.DateField()
-    img_src = md.URLField(max_length=400, default=NULL_IMG_SRC)
-    rover = md.ForeignKey('photos.Rover', related_name='photos')
-    camera = md.ForeignKey('photos.Camera', related_name='photos')
-    prev_photo = md.OneToOneField(
-        'photos.Photo',
-        related_name='next_photo',
+    id          = md.IntegerField(unique=True, primary_key=True)
+    sol         = md.IntegerField()
+    earth_date  = md.DateField()
+    is_null     = md.BooleanField(default=False)
+    img_src     = md.URLField(max_length=400, default=NULL_IMG_SRC)
+    rover       = md.ForeignKey('photos.Rover', related_name='photos')
+    camera      = md.ForeignKey('photos.Camera', related_name='photos')
+    prev_photo  = md.ForeignKey(
+        'self',
+        on_delete=md.SET_NULL,
+        related_name='+',
         null=True,
     )
-    concurrent = md.ManyToManyField('self', symmetrical=False)
-    is_null = md.BooleanField(default=False)
+    next_photo  = md.ForeignKey(
+        'self',
+        on_delete=md.SET_NULL,
+        related_name='+',
+        null=True,
+    )
+    concurrent  = md.ManyToManyField('self', symmetrical=False)
 
 
 class Rover(md.Model):

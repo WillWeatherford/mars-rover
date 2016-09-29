@@ -70,10 +70,10 @@ def populate_photos(sol_limit=None):
     null_id_counter = count(1000000000)
     prev_photos = {}
 
-    # waiting_for_next = {
-    #     rover.name: {camera.name: set() for camera in rover.cameras.all()}
-    #     for rover in rover_data
-    # }
+    waiting_for_next = {
+        rover.name: {camera.name: set() for camera in rover.cameras.all()}
+        for rover in rover_data
+    }
 
     for sol, rover in iter_sol_rover(sol_limit):
         url = make_rover_url(rover.name)
@@ -104,19 +104,19 @@ def populate_photos(sol_limit=None):
                 photos_this_sol.setdefault(camera.name, []).append(new_photo)
 
                 # Set a connection from null photos to next good one
-                # Must be one to many!
-                # need_next = waiting_for_next[rover.name][camera.name]
-                # if need_next:
-                #     for null_photo in need_next:
-                #         null_photo.next_photo = new_photo
-                #         null_photo.save()
-                #     waiting_for_next[rover.name][camera.name] = set()
+                need_next = waiting_for_next[rover.name][camera.name]
+                if need_next:
+                    for null_photo in need_next:
+                        null_photo.next_photo = new_photo
+                        null_photo.save()
+                    waiting_for_next[rover.name][camera.name] = set()
 
                 # Update last_earth_date to set on null photos.
                 last_earth_date = max((last_earth_date, photo['earth_date']))
 
             if not photos:
                 null_photo = make_null_photo(
+                    is_null=True,
                     id=next(null_id_counter),
                     sol=sol,
                     earth_date=last_earth_date,
@@ -125,11 +125,11 @@ def populate_photos(sol_limit=None):
                 )
                 photos_this_sol[camera.name] = [null_photo]
 
-                # if prev_photos[rover.name][camera.name] is not None:
-                #     null_photo.prev_photo = prev_photos[rover.name][camera.name]
-                #     null_photo.save()
+                if prev_photos[rover.name][camera.name] is not None:
+                    null_photo.prev_photo = prev_photos[rover.name][camera.name]
+                    null_photo.save()
 
-                # waiting_for_next[rover.name][camera.name].add(null_photo)
+                waiting_for_next[rover.name][camera.name].add(null_photo)
 
         set_concurrent(photos_this_sol)
 
