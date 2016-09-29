@@ -192,17 +192,6 @@ def is_good_photo(photo):
     return all([re.search(pat, photo['img_src']) is None for pat in BAD_PATS])
 
 
-def make_null_photo(**kwargs):
-    """Enter a Photo into the database which is an empty placeholder."""
-    kwargs['img_src'] = NULL_IMG_SRC
-    new_photo = Photo(**kwargs)
-    new_photo.save()
-    print('Created null photo for rover={} camera={} sol={}'.format(
-        kwargs['rover'].name, kwargs['camera'].name, kwargs['sol']
-    ))
-    return new_photo
-
-
 if __name__ == '__main__':
 
     rover_data = get_initial_data()
