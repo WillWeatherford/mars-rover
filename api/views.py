@@ -37,6 +37,7 @@ class RoverView(RetrieveAPIView):
     def get_object(self, *args, **kwargs):
         """Extend get_object method."""
         rover = super(RoverView, self).get_object(*args, **kwargs)
+
         params = START[rover.name].copy()
         params.update(self.request.GET.dict())
 
@@ -48,4 +49,4 @@ class RoverView(RetrieveAPIView):
         except KeyError:
             queryset = queryset.filter(sol=params['sol'])
 
-        return queryset.sort_by('img_src').first()
+        return queryset.order_by('img_src').first()
