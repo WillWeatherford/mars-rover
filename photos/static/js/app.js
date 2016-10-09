@@ -140,24 +140,24 @@ function fetchPhotos(url) {
 
 // GET THE NEXT PHOTO
 function nextPhoto() {
-	$('#main-photo').attr('src', currentPhoto.next_photo.img_src);
+    $('#main-photo').attr('src', currentPhoto.next_photo.img_src);
     fetchPhotos(currentPhoto.next_photo.url);
 };
 
 $('#next-photo').on('click', function(){
-	nextPhoto();
+    nextPhoto();
 });
 
 
 // GET THE PREVIOUS PHOTO
 function prevPhoto() {
-	$('#main-photo').attr('src', currentPhoto.prev_photo.img_src);
+    $('#main-photo').attr('src', currentPhoto.prev_photo.img_src);
     fetchPhotos(currentPhoto.prev_photo.url);
 };
 
 
 $('#prev-photo').on('click', function(){
-	prevPhoto();
+    prevPhoto();
 });
 
 
@@ -168,7 +168,7 @@ function fetchRover(url, rover) {
         type: 'GET',
         dataType: 'json',
         success: function(response){
-        	$('#main-photo').attr('src', response.img_src);
+            $('#main-photo').attr('src', response.img_src);
 
         }
     });
@@ -176,66 +176,74 @@ function fetchRover(url, rover) {
 
 
 function fetchRoverBySol(url, rover, sol, cam) {
-    console.log(url, rover, sol, cam)
     $.ajax({
         url: url + rover
-        	 + '?sol=' + sol 
-        	 + '&camera__name=' + cam, 
+             + '?sol=' + sol 
+             + '&camera__name=' + cam, 
         type: 'GET',
         dataType: 'json',
         success: function(response){
 
-            $('#main-photo').attr('src', response.img_src);
-            $('#sol_date').text('Sol Date: ' + response.sol);
-            $('#earth_date').text('Earth Date: ' + response.earth_date);
-        	currentPhoto = response;
+            console.log(response)
+            if (response.id !== null){
+                $('#main-photo').attr('src', response.img_src);
+                $('#sol_date').text('Sol Date: ' + response.sol);
+                $('#earth_date').text('Earth Date: ' + response.earth_date);
+                currentPhoto = response;
 
-            $('.diff_camera').remove();
-            $('.concurrent_img').remove();
-            for (var i = 0; i < response.concurrent.length; i++) {
-                $('#cam_button_' + i).remove();
-                $('.' + i).remove();
+                $('.diff_camera').remove();
+                $('.concurrent_img').remove();
+
+                for (var i = 0; i < response.concurrent.length; i++) {
+                    $('#cam_button_' + i).remove();
+                    $('.' + i).remove();
+                }
+            // }
+
+                $(document).ready(function () {
+                    window.scrollTo(0,0);
+                });
+
+                for (var i = 0; i < response.concurrent.length; i++) {
+                    $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
+                    $('#div_' + i ).append('<h4 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h4>')
+                    $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
+                    $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
+                    camButtons.push(i);
+                }
+
+                currentPhoto = response;
+
+                for (var i = 0; i < camButtons.length; i++) {
+                    (function(i) {
+                        $('#cam_button_' + camButtons[i]).on('click', function() {
+                            fetchPhotos(response.concurrent[i].url);
+                        });
+                    })(i);
+                }    
+            } else {
+                alert('There are no photos for a sol on that date! Try another sol!')
             }
-
-            $(document).ready(function () {
-                window.scrollTo(0,0);
-            });
-
-            for (var i = 0; i < response.concurrent.length; i++) {
-                $('#concur_container').append('<div class="div_concur" id="div_' + i + '"></div>');
-                $('#div_' + i ).append('<h4 class="diff_camera">' + response.concurrent[i].camera.full_name + '</h4>')
-                $('#div_' + i ).append('<img class="' + i + ' concurrent_img" src="' + response.concurrent[i].img_src + '" >');
-                $('#div_' + i ).append('<button style="width: 250px;" type="button" name="button" id="cam_button_' + i + '" class="button-primary">Switch Camera</button>');
-                camButtons.push(i);
-            }
-
-            currentPhoto = response;
-
-            for (var i = 0; i < camButtons.length; i++) {
-                (function(i) {
-                    $('#cam_button_' + camButtons[i]).on('click', function() {
-                        fetchPhotos(response.concurrent[i].url);
-                    });
-                })(i);
-            }    
-
         }
     });
 }
 
 
 $('#submit_sol').on('click', function(e){
-	e.preventDefault();
-	var soles = document.getElementById('sol');
-	new_sol = soles.elements[0].value;
-    console.log(new_sol)
-	fetchRoverBySol(roverURL, mainRover, new_sol, currentPhoto.camera.name);
+    e.preventDefault();
+    var soles = document.getElementById('sol');
+    new_sol = soles.elements[0].value;
+    console.log('ROVER: ', roverURL)
+    console.log('Main Rover: ', mainRover)
+    console.log('SOL: ', new_sol)
+    console.log(currentPhoto.camera.name)
+    fetchRoverBySol(roverURL, mainRover, new_sol, currentPhoto.camera.name);
 });
 
 
 function fetchBySol(url, rover, sol, cam) {
     console.log(url, rover, sol, cam)
-	$.ajax({
+    $.ajax({
         url: url + rover + '?sol=' + sol + '&camera__name=' + cam, 
         type: 'GET',
         dataType: 'json',
@@ -248,8 +256,8 @@ function fetchBySol(url, rover, sol, cam) {
             $('#sol_date').text('Sol Date: ' + response.sol);
             $('#earth_date').text('Earth Date: ' + response.earth_date);
 
-        	currentPhoto = response;
-        	
+            currentPhoto = response;
+            
             $('.diff_camera').remove();
             $('.concurrent_img').remove();
             for (var i = 0; i < response.concurrent.length; i++) {
@@ -284,7 +292,7 @@ function fetchBySol(url, rover, sol, cam) {
 
 
         }
-    });	
+    }); 
 }
 
 
