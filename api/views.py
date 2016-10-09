@@ -37,19 +37,16 @@ class RoverView(RetrieveAPIView):
     def get_object(self, *args, **kwargs):
         """Extend get_object method."""
         rover = super(RoverView, self).get_object(*args, **kwargs)
-        req_params = self.request.GET.dict()
 
-        camera_name = req_params.pop('camera__name', None)
-        if camera_name is not None:
-            queryset = rover.cameras.get(name=camera_name).photos
-        else:
-            queryset = rover.photos
+        params = START[rover.name].copy()
+        params.update(self.request.GET.dict())
 
-        resp_params = START[rover.name].copy()
-        resp_params.update(req_params)
+        camera = rover.cameras.get(name=params['camera__name'])
+        queryset = camera.photos
 
-        if 'earth_date' in resp_params and 'sol' in resp_params:
-            resp_params.pop('sol')
+        try:
+            queryset = queryset.filter(earth_date=params['earth_date'])
+        except KeyError:
+            queryset = queryset.filter(sol=params['sol'])
 
-        queryset = queryset.filter(**resp_params).order_by('img_src')
-        return queryset.first()
+        return queryset.order_by('img_src').first()
