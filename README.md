@@ -1,5 +1,5 @@
 # mars-rover
-An interactive web application allowing Earth-bound folks to explore Mars through the images gathered by NASA's rovers.
+An interactive web application allowing Earth-bound folks to explore Mars through the images gathered by NASA's rovers. Visit the app at http://marsrover.will-weatherford.com.
 
 Data gathered from NASA Mars Rover API at: https://api.nasa.gov/api.html#MarsPhotos.
 API created and maintained by Cris Cerami: https://github.com/chrisccerami/mars-photo-api
